@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  io.github.rothschil.common.utils.SpringManager,\
+  io.github.rothschil.common.utils.RetryMonitor,\
+  io.github.rothschil.common.config.BaseJpaRepositoryConfig
