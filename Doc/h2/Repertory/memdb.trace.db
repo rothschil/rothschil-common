@@ -2358,3 +2358,12 @@ Caused by: org.h2.mvstore.MVStoreException: The write format 1 is smaller than t
 	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2164)
 	at org.h2.mvstore.db.Store.<init>(Store.java:133)
 	... 10 more
+2025-11-16 12:09:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TBL_CDMA_HLR" not found; SQL statement:
+select tch1_0.id,tch1_0.location1,tch1_0.location2,tch1_0.phoneprefix from tbl_cdma_hlr tch1_0 where tch1_0.phoneprefix in (?) fetch first ? rows only [42102-200]
+2025-11-16 12:11:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TBL_CDMA_HLR" not found; SQL statement:
+select tch1_0.id,tch1_0.location1,tch1_0.location2,tch1_0.phoneprefix from tbl_cdma_hlr tch1_0 where tch1_0.phoneprefix=? [42102-200]
+2025-11-16 12:39:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TBL_CDMA_HLR" not found; SQL statement:
+select tch1_0.id,tch1_0.location1,tch1_0.location2,tch1_0.phoneprefix from tbl_cdma_hlr tch1_0 where tch1_0.phoneprefix=? [42102-200]

@@ -67,7 +67,7 @@ spring:
       spec: maximumSize=500,expireAfterWrite=60s
   redis:
     redisson:
-      file: classpath:redisson.yml
+      file: classpath:config/redisson-dev.yml
 logging:
   config: classpath:config/logback-spring-dev.xml
 

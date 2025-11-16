@@ -1,8 +1,11 @@
-package io.github.rothschil.common.utils;
+package io.github.rothschil.common.utils.cache;
 
+import io.github.rothschil.common.utils.SpringContextUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.redisson.RedissonRedLock;
 import org.redisson.api.*;
+import org.redisson.client.codec.StringCodec;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -13,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.redisson.client.codec.StringCodec;
 
 /**
  * redis 工具类
@@ -22,7 +24,7 @@ import org.redisson.client.codec.StringCodec;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
-public class RedisUtils {
+public class RedissonUtils {
 
 
     /**
@@ -553,7 +555,7 @@ public class RedisUtils {
     /**
      * 移除缓存
      *
-     * @param key
+     * @param key   缓存key
      */
     public static void delete(String key) {
         CLIENT.getBucket(key).delete();
@@ -583,8 +585,8 @@ public class RedisUtils {
     /**
      * 缓存字符串
      *
-     * @param key
-     * @param value
+     * @param key   缓存key
+     * @param value 缓存值
      */
     public static void setStr(String key, String value) {
         RBucket<String> bucket = CLIENT.getBucket(key);
@@ -629,7 +631,7 @@ public class RedisUtils {
     /**
      * 判断缓存是否存在
      *
-     * @param key
+     * @param key   键
      * @return true 存在
      */
     public static Boolean isExists(String key) {
@@ -649,7 +651,7 @@ public class RedisUtils {
     /**
      * 获取RMapCache对象
      *
-     * @param key
+     * @param key   键
      * @return RMapCache对象
      */
     public static <K, V> RMapCache<K, V> getMap(String key) {
@@ -659,7 +661,7 @@ public class RedisUtils {
     /**
      * 获取RSET对象
      *
-     * @param key
+     * @param key   键
      * @return RSET对象
      */
     public static <T> RSet<T> getSet(String key) {
@@ -669,12 +671,132 @@ public class RedisUtils {
     /**
      * 获取RScoredSortedSet对象
      *
-     * @param key
-     * @param <T>
+     * @param key   键
      * @return RScoredSortedSet对象
      */
     public static <T> RScoredSortedSet<T> getScoredSortedSet(String key) {
         return CLIENT.getScoredSortedSet(key);
+    }
+
+
+
+    /**
+     * 分布式锁
+     * <br/>
+     * <p>
+     * RLock fairLock = CLIENT.getFairLock(k);<br/>
+     * try {<br/>
+     *  fairLock.lock();<br/>
+     *  } finally {<br/>
+     *  fairLock.unlock();<br/>
+     *  }<br/>
+     *
+     * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+     * @param k 键
+     * @param waitTime  等待时间
+     * @param leaseTime 锁持时间
+     * @param timeUnit 时间单位
+     **/
+    public static void tryLock(String k,int waitTime,int leaseTime,TimeUnit timeUnit){
+        RLock lock = CLIENT.getLock(k);
+        RedissonRedLock redLock = new RedissonRedLock(lock);
+        try {
+            boolean isLocked = redLock.tryLock(waitTime, leaseTime, timeUnit);
+            if (isLocked) {
+                // 业务逻辑（如库存扣减）
+
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            redLock.unlock();
+        }
+
+    }
+
+    /**
+     * 公平锁实现，按请求顺序分配锁，避免线程饥饿
+     * <br/>
+     * <p>
+     * RLock fairLock = CLIENT.getFairLock(k);<br/>
+     * try {<br/>
+     *  fairLock.lock();<br/>
+     *  } finally {<br/>
+     *  fairLock.unlock();<br/>
+     *  }<br/>
+     *
+     * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+     * @param k 键
+     **/
+    public static void fairLock(String k){
+
+    }
+
+
+    /**
+     * 手动续期（需在超时前调用）
+     * <br/>
+     * <p>
+     * RLock lock = CLIENT.getLock(k);<br/>
+     * try {<br/>
+     *  lock.lock(0, 30, TimeUnit.SECONDS);<br/>
+     *  lock.expire(30, TimeUnit.SECONDS); <br/>
+     *  } finally {<br/>
+     *  lock.unlock();<br/>
+     *  }<br/>
+     *
+     * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+     * @param k 键
+     **/
+    public static void expire(String k){
+    }
+
+    /**
+     * 非公平锁（竞争无序），适合高并发场景
+     * <br/>
+     * <p>
+     * RLock nonFairLock = CLIENT.getLock(k);<br/>
+     * try {<br/>
+     *  nonFairLock.tryLock(0, 30, TimeUnit.SECONDS);<br/>
+     *  } finally {<br/>
+     *  nonFairLock.unlock();<br/>
+     *  }<br/>
+     *
+     * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+     * @param k 键
+     **/
+    public static void getLock(String k){
+    }
+
+    /**
+     * 可重入锁
+     * <br/>
+     * <p>
+     * RLock lock = CLIENT.getLock(k);<br/>
+     * try {<br/>
+     *  lock.lock();<br/>
+     *  nestedMethod();<br/>
+     *
+     *  } finally {<br/>
+     *  lock.unlock();<br/>
+     *  }
+     * <br/>
+     * private void nestedMethod() {<br/>
+     *  RLock lock = CLIENT.getLock(k);<br/>
+     *  // 重入锁（计数器+1）
+     *  try {<br/>
+     *  lock.lock();<br/>
+     *  // 业务逻辑（如日志记录）
+     *  } finally {<br/>
+     *  lock.unlock();<br/>
+     *  }<br/>
+     *  }<br/>
+     *
+     * <br/>
+     * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+     * @param k 键
+     **/
+    public static void nestedLock(String k){
     }
 
 }

@@ -1,7 +1,7 @@
 package io.github.rothschil.common.utils;
 
 
-import io.github.rothschil.common.annotation.Cacheable;
+import io.github.rothschil.common.config.annotation.Cacheable;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

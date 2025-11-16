@@ -1,6 +1,6 @@
 package io.github.rothschil.web.compoent;
 
-import io.github.rothschil.common.annotation.Cacheable;
+import io.github.rothschil.common.config.annotation.Cacheable;
 import io.github.rothschil.common.utils.DateUtils;
 import io.github.rothschil.domain.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;

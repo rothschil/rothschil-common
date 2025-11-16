@@ -1,6 +1,6 @@
 package io.github.rothschil.common.cache.redis.lock;
 
-import io.github.rothschil.common.utils.RedisUtils;
+import io.github.rothschil.common.utils.cache.RedissonUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class RedisLock {
 
     private static Logger logger = LoggerFactory.getLogger(RedisLock.class);
 
-    protected static RedissonClient REDISSON_CLIENT=RedisUtils.getClient();
+    protected static RedissonClient REDISSON_CLIENT= RedissonUtils.getClient();
 
 
     /**
@@ -182,7 +182,7 @@ public class RedisLock {
      * @param seconds 过去时间（秒）
      */
     private void set(final String key, final String value, final long seconds) {
-        RedisUtils.setStr(key,value,seconds);
+        RedissonUtils.setStr(key,value,seconds);
     }
 
     /**

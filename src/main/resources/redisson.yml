@@ -1,4 +1,0 @@
-singleServerConfig:
-  database: 0
-  address: redis://localhost:6379
-#  password: 123456
