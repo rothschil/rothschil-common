@@ -82,13 +82,19 @@ public class CacheUtils {
         Object obj=null;
         if(enableCaffeine){
             obj = CaffeineCacheUtil.getCacheObject(k);
-            log.warn("[Hit First Cache Class=Method] [Key] \n{}={}", k, obj);
+            if(ObjectUtil.isNotNull(obj)){
+                log.warn("[Hit First Cache Class=Method] [Key] \n{}={}", k, obj);
+            } else{
+                log.debug("[Missed the level 1st cache] [Key]={}", k);
+            }
         }
         if(ObjectUtil.isNull(obj)){
             String val = get(k);
-            log.info("[Hit Second Cache Class=Method] [Key]\n{} Cache Value ={}", k, obj);
             if(!StringUtils.isBlank(val)){
+                log.info("[Hit Second Cache Class=Method] [Key]\n{} Cache Value ={}", k, obj);
                 CaffeineCacheUtil.putIntoCache(k,val,60,TimeUnit.MINUTES);
+            } else{
+                log.debug("[Missed the level 2nd cache] [Key]={}", k);
             }
             return val;
         } else{

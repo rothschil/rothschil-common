@@ -2,10 +2,9 @@ package io.github.rothschil.domain.entity;
 
 
 import io.github.rothschil.common.base.persistence.entity.AbstractEntity;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import jakarta.persistence.*;
 
 @Data
 @Entity

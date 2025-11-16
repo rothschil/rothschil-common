@@ -52,7 +52,7 @@ public class CacheAspect {
 
         String value = CacheUtils.get(key,enableCaffeine);
         if(StringUtils.isNotBlank(value)){
-            log.warn("[Hit Cache Class=Method] [Key] {}={}\n{}={}", className,methodName,key, value);
+            log.warn("[Hit Cache Class.Method] [Key] {}.{}\n{}={}", className,methodName,key, value);
             return structure(methodSignature,value);
         }
 
