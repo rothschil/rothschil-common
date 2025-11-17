@@ -16,7 +16,7 @@ spring:
       salve:
         name: ds_sqlite
         driver-class-name: org.sqlite.JDBC
-        url: jdbc:sqlite:resource:${data.url.salve.url}
+        url: jdbc:sqlite::resource:${data.url.salve.url}
         username:
         password:
         test-while-idle: false

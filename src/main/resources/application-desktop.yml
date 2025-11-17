@@ -9,14 +9,14 @@ spring:
       master:
         name: ds_h2
         driver-class-name: org.h2.Driver
-        url: D:/Code/Github/Rothschil/rothschil-common/Doc/h2/Repertory/memdb
+        url: jdbc:h2:file:D:/Code/Github/Rothschil/rothschil-common/Doc/h2/Repertory/memdb
         username: sa
         password: 123456
         test-while-idle: false
       salve:
         name: ds_sqlite
         driver-class-name: org.sqlite.JDBC
-        url: jdbc:sqlite:resource:${data.url.salve.url}
+        url: jdbc:sqlite::resource:${data.url.salve.url}
         username:
         password:
         test-while-idle: false

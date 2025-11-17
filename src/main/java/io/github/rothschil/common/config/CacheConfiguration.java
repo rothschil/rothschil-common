@@ -24,9 +24,13 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfiguration {
 
 
+    /** 测试阶段，使用初始化值偏小
+     * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
+     * @return com.github.benmanes.caffeine.cache.Cache<java.lang.String,java.lang.Object>
+     **/
     @Bean
     public Cache<String, Object> caffeineCache() {
-        return Caffeine.newBuilder().expireAfterWrite(3600, TimeUnit.SECONDS).initialCapacity(100).maximumSize(1000).build();
+        return Caffeine.newBuilder().expireAfterWrite(3600, TimeUnit.SECONDS).initialCapacity(3).maximumSize(10).build();
     }
 
     /**

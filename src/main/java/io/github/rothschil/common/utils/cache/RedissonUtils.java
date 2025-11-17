@@ -205,7 +205,7 @@ public class RedissonUtils {
      * @return 缓存键值对应的数据
      */
     public static <T> T getCacheObject(final String key) {
-        RBucket<T> rBucket = CLIENT.getBucket(key);
+        RBucket<T> rBucket = CLIENT.getBucket(key,new StringCodec());
         return rBucket.get();
     }
 
