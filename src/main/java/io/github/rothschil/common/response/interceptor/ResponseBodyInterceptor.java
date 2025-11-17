@@ -59,7 +59,7 @@ public class ResponseBodyInterceptor implements HandlerInterceptor {
     public void trace(HttpServletRequest request) {
         //可以考虑让客户端传入链路ID，但需保证一定的复杂度唯一性；如果没使用默认UUID自动生成
         String callId = request.getHeader("callId");
-        if (!StringUtils.isEmpty(callId)) {
+        if (StringUtils.isEmpty(callId)) {
             callId = UUID.randomUUID().toString().replace("-", "");
         }
         MDC.put(Constant.TRACE_ID, callId);
