@@ -1,0 +1,76 @@
+server:
+  port: 11000
+github:
+  active: desktop
+
+spring:
+  datasource:
+    druid:
+      master:
+        name: ds_h2
+        driver-class-name: org.h2.Driver
+        url: D:/Code/Github/Rothschil/rothschil-common/Doc/h2/Repertory/memdb
+        username: sa
+        password: 123456
+        test-while-idle: false
+      salve:
+        name: ds_sqlite
+        driver-class-name: org.sqlite.JDBC
+        url: jdbc:sqlite:resource:${data.url.salve.url}
+        username:
+        password:
+        test-while-idle: false
+      use-global-data-source-stat: true
+      filters: stat
+      initial-size: 2
+      min-idle: 2
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x' FROM DUAL
+      test-while-idle: false
+      test-on-borrow: false
+      test-on-return: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    #        use_sql_comments: true
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+        enable_lazy_load_no_trans: true
+    generate-ddl: false
+    defer-datasource-initialization: true
+  transaction:
+    rollback-on-commit-failure: true
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: true
+      enabled: true
+  jackson:
+    # json 序列化排除值为 null 的属性
+    default-property-inclusion: non_null
+    # 配置 Date 类的时间格式，如果不涉及可以不加
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 配置 Date 类的时区，如果不涉及可以不加
+    time-zone: GMT+8
+  cache:
+    type: composite
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=60s
+  redis:
+    redisson:
+      file: classpath:config/redisson-dev.yml
+logging:
+  config: classpath:config/logback-spring-dev.xml
+
+dynamic:
+  enabled: true
+
