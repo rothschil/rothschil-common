@@ -3,7 +3,11 @@ spring:
     active: dev
   application:
     name: rothschil-common
-
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-dates-as-timestamps: false
 
 data:
   url:
