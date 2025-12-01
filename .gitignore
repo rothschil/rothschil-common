@@ -5,6 +5,7 @@
 **/auto-generate-code/
 **/resources/alioss.properties
 
+version-commit.gradle
 .idea
 
 # IntelliJ project files
