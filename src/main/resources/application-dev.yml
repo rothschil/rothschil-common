@@ -54,13 +54,6 @@ spring:
         trace: false
         web-allow-others: true
       enabled: true
-  jackson:
-    # json 序列化排除值为 null 的属性
-    default-property-inclusion: non_null
-    # 配置 Date 类的时间格式，如果不涉及可以不加
-    date-format: yyyy-MM-dd HH:mm:ss
-    # 配置 Date 类的时区，如果不涉及可以不加
-    time-zone: GMT+8
   cache:
     type: composite
     caffeine:

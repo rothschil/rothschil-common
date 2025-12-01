@@ -12,26 +12,40 @@ spring:
         url: jdbc:h2:file:D:/Code/Github/Rothschil/rothschil-common/Doc/h2/Repertory/memdb
         username: sa
         password: 123456
-        test-while-idle: false
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        validation-query: SELECT 1
+        validation-query-timeout: 1000
+        initial-size: 2
+        min-idle: 2
+        max-active: 10
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        break-after-acquire-failure: true
+        connection-error-retry-attempts: 10
+        time-between-connect-error-millis: 3000
       salve:
         name: ds_sqlite
         driver-class-name: org.sqlite.JDBC
         url: jdbc:sqlite::resource:${data.url.salve.url}
         username:
         password:
-        test-while-idle: false
-      use-global-data-source-stat: true
-      filters: stat
-      initial-size: 2
-      min-idle: 2
-      max-active: 20
-      max-wait: 60000
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 'x' FROM DUAL
-      test-while-idle: false
-      test-on-borrow: false
-      test-on-return: false
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        validation-query: SELECT 1
+        validation-query-timeout: 1000
+        initial-size: 2
+        min-idle: 2
+        max-active: 10
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        break-after-acquire-failure: true
+        connection-error-retry-attempts: 10
+        time-between-connect-error-millis: 3000
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
@@ -54,13 +68,6 @@ spring:
         trace: false
         web-allow-others: true
       enabled: true
-  jackson:
-    # json 序列化排除值为 null 的属性
-    default-property-inclusion: non_null
-    # 配置 Date 类的时间格式，如果不涉及可以不加
-    date-format: yyyy-MM-dd HH:mm:ss
-    # 配置 Date 类的时区，如果不涉及可以不加
-    time-zone: GMT+8
   cache:
     type: composite
     caffeine:

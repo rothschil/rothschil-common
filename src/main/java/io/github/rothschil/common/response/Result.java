@@ -21,9 +21,10 @@ public class Result<T> implements Serializable {
      **/
     int code;
     /**
-     * 消息描述
+     * 消息描述返回信息
      **/
     String message;
+
 
     /**
      * 对需要响应的数据进行封装
@@ -49,18 +50,75 @@ public class Result<T> implements Serializable {
         this.message = status.getMsg();
     }
 
+    /**
+     * 全参数方法
+     *
+     * @param code    状态码
+     * @param message 返回信息
+     * @param data    返回数据
+     * @param <T>     泛型
+     * @return {@link Result<T>}
+     */
+    private static <T> Result<T> response(int code, String message, T data) {
+        Result<T> result = new Result<>();
+        result.setCode(code);
+        result.setMessage(message);
+        result.setData(data);
+        return result;
+    }
+
+    /**
+     * 全参数方法
+     *
+     * @param code    状态码
+     * @param message 返回信息
+     * @param <T>     泛型
+     * @return {@link Result<T>}
+     */
+    private static <T> Result<T> response(int code, String message) {
+        Result<T> result = new Result<>();
+        result.setCode(code);
+        result.setMessage(message);
+        return result;
+    }
+
+    /**
+     * 全参数方法
+     *
+     * @param status    状态码
+     * @param <T>     泛型
+     * @return {@link Result<T>}
+     */
+    private static <T> Result<T> response(Status status) {
+        Result<T> result = new Result<>();
+        result.setCode(status.getStatus());
+        result.setMessage(status.getMsg());
+        return result;
+    }
+
+    /**
+     * 全参数方法
+     *
+     * @param status    状态码
+     * @param <T>     泛型
+     * @return {@link Result<T>}
+     */
+    private static <T> Result<T> response(Status status, T data) {
+        Result<T> result = new Result<>();
+        result.setCode(status.getStatus());
+        result.setMessage(status.getMsg());
+        result.setData(data);
+        return result;
+    }
+
 
     /**
      * 成功
-     *
      * @return Result
      * @author <a href="https://github.com/rothschil">Sam</a>
-     * @date 2018/4/26-16:43
      **/
     public static <T> Result<T> success() {
-        Result<T> result = new Result<T>();
-        result.setStatus(Status.SUCCESS);
-        return result;
+        return response(Status.SUCCESS);
     }
 
     /**
@@ -69,12 +127,9 @@ public class Result<T> implements Serializable {
      * @param data 数据实体
      * @return Result
      * @author <a href="https://github.com/rothschil">Sam</a>
-     * @date 2018/4/26-16:43
      **/
     public static <T> Result<T> success(T data) {
-        Result<T> result = success();
-        result.setData(data);
-        return result;
+        return response(Status.SUCCESS,data);
     }
 
     public static <T> Result<T> fail(Status status, Exception ex) {
@@ -149,5 +204,6 @@ public class Result<T> implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
 
 }

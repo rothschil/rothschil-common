@@ -5,7 +5,6 @@ package io.github.rothschil.common.response.enums;
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
  * @version 1.0.0
  */
-@SuppressWarnings("unused")
 public enum Status {
 
     /**
@@ -28,8 +27,10 @@ public enum Status {
     /**
      * 200 ~ 999 系统异常
      */
-    SYSTEM_EXCEPTION(200, "系统异常"),
-    RUNTIME_EXCEPTION(202, "运行时异常"),
+    SYSTEM_EXCEPTION(110, "系统异常"),
+    RUNTIME_EXCEPTION(111, "运行时异常"),
+    SYSTEM_BUSY_EXCEPTION(112, "系统繁忙中，请稍后再试"),
+
     NULL_POINTER_EXCEPTION(203, "空指针异常"),
     NOT_FOUND(404, "Not Found"),
 
@@ -123,6 +124,7 @@ public enum Status {
     API_PARAM_MISSING_EXCEPTION(3006, "缺少参数"),
     API_METHOD_NOT_SUPPORTED_EXCEPTION(3007, "不支持的Method类型"),
     API_METHOD_PARAM_TYPE_EXCEPTION(3008, "参数类型不匹配"),
+    API_PARAM_VIOLATION_EXCEPTION(3009, "处理参数校验异常"),
 
     DATA_EXCEPTION(32004, "数据异常"),
     DATA_NOT_FOUND_EXCEPTION(32005, "未找到符合条件的数据异常"),
@@ -172,7 +174,7 @@ public enum Status {
         this.msg = msg;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 

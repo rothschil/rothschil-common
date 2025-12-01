@@ -92,7 +92,6 @@ dependencies {
 	// DataSource  Cache Redis
 	implementation 'com.alibaba:druid-spring-boot-starter:1.2.9'
 	implementation 'org.xerial:sqlite-jdbc:3.48.0.0'
-//	implementation 'com.h2database:h2:2.4.240'
 	implementation 'com.h2database:h2:1.4.200'
 	//1.4.200
 	implementation('org.springframework.boot:spring-boot-starter-cache')
@@ -107,6 +106,10 @@ dependencies {
 	implementation("org.apache.httpcomponents.client5:httpclient5:5.4.4")
 //	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+    // 推拉流
+    implementation('com.aizuda:zlm4j:1.7.1')
+    implementation('net.java.dev.jna:jna:5.18.1')
 
 }
 
