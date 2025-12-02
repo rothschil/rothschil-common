@@ -91,7 +91,7 @@ public class CacheUtils {
         if(ObjectUtil.isNull(obj)){
             String val = get(k);
             if(!StringUtils.isBlank(val)){
-                log.info("[Hit Second Cache Class=Method] [Key]\n{} Cache Value ={}", k, obj);
+                log.info("[Hit Second Cache Class=Method] [Key]\n{} Cache Value ={}", k, val);
                 CaffeineCacheUtil.putIntoCache(k,val,60,TimeUnit.MINUTES);
             } else{
                 log.debug("[Missed the level 2nd cache] [Key]={}", k);
