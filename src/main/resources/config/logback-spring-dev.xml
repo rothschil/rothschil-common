@@ -9,17 +9,15 @@
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
-<!--
-    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] [%X{traceId}] [${PID}] %-40.40logger{39} [%line] %m%n}"/>
--->
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] [%X{traceId}] [${PID}] %boldGreen(%logger{60}:%L) %msg%n"/>
 
 
-    <property name="CONSOLE_LOG_PATTERN"
-              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} [%boldGreen(%X{traceId})] %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-    <!-- 彩色日志依赖的渲染类 -->
+    <!--<property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} [%boldGreen(%X{traceId})] %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+-->    <!-- 彩色日志依赖的渲染类 -->
 
     <!-- 控制台输出 -->
-    <appender name="STD_OUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="ASYNC_STD_OUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -28,9 +26,9 @@
 
 
     <!-- 控制台_异步输出 -->
-    <appender name="ASYNC_STD_OUT" class="ch.qos.logback.classic.AsyncAppender">
+<!--    <appender name="ASYNC_STD_OUT" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="STD_OUT"/>
-    </appender>
+    </appender>-->
 
     <!-- 主日志文件 -->
     <appender name="MAIN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
