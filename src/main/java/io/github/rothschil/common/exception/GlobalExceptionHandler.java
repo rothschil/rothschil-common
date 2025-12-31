@@ -1,5 +1,6 @@
 package io.github.rothschil.common.exception;
 
+import io.github.rothschil.common.exception.util.ExceptionUtil;
 import io.github.rothschil.common.response.Result;
 import io.github.rothschil.common.response.enums.Status;
 import jakarta.annotation.Priority;
@@ -45,6 +46,7 @@ public class GlobalExceptionHandler {
     public Result nullPointerException(HttpServletRequest request, NullPointerException ex) {
         String urlStr = request.getRequestURI().replaceAll(".*//([^//]*:{0,1}[0-9])", "");
         String params = "";
+        LOG.error(ExceptionUtil.getMessage(ex));
         LOG.error("[URI]:\n{}\n[params]:\n{}\n[exception]:{}", urlStr, params, ex.getMessage());
         return Result.fail(Status.NULL_POINTER_EXCEPTION, ex);
     }
@@ -59,6 +61,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CommonException.class)
     public Result handleWeathertopException(CommonException ex, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
+        LOG.error(ExceptionUtil.getMessage(ex));
         LOG.error("url:{} code:{},msg:{}",requestURI, ex.getCode(), ex.getMessage());
         return Result.fail(ex.getCode(), requestURI+" "+ex.getMessage());
     }
@@ -80,6 +83,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public Result handleBindException(BindException e, HttpServletRequest request) {
         LOG.error("发生参数校验异常！原因是：", e);
+        LOG.error(ExceptionUtil.getMessage(e));
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
         List<String> collect = fieldErrors.stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -148,6 +152,7 @@ public class GlobalExceptionHandler {
     public Result handleException(Exception ex, HttpServletRequest request) {
         // 1. 打印详细的错误堆栈到日志 (ERROR级别，包含请求路径)
         LOG.error("[系统异常] 请求路径: {}，异常信息：", request.getRequestURI(), ex);
+        LOG.error(ExceptionUtil.getMessage(ex));
         // 2. 返回给前端一个通用的错误信息 (避免泄露敏感信息)
         return Result.fail(Status.SYSTEM_BUSY_EXCEPTION, "系统繁忙，请稍后再试", ex.toString());
     }
