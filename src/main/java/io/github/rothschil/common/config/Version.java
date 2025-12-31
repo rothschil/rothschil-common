@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 
 @Slf4j
 public class Version {
-    public static final String module  = "MMCC_MAINTAIN";
+    public static final String module  = "ROTHSCHIL";
     public static final String version = "v1.07.000";
 
     public static void printlnVersionInfo(Environment env) {
