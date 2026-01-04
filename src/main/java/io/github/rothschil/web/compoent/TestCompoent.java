@@ -2,7 +2,7 @@ package io.github.rothschil.web.compoent;
 
 import io.github.rothschil.common.config.annotation.Cacheable;
 import io.github.rothschil.common.utils.DateUtils;
-import io.github.rothschil.domain.vo.UserVo;
+import io.github.rothschil.domain.database.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

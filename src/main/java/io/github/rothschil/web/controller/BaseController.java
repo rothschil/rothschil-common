@@ -1,6 +1,6 @@
 package io.github.rothschil.web.controller;
 
-import io.github.rothschil.domain.service.TblCdmaHlrService;
+import io.github.rothschil.domain.database.service.TblCdmaHlrService;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package io.github.rothschil.web.compoent;
 
-import io.github.rothschil.domain.vo.UserVo;
+import io.github.rothschil.domain.database.vo.UserVo;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 

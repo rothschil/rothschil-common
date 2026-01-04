@@ -2,8 +2,8 @@ package io.github.rothschil.boot;
 
 
 import io.github.rothschil.AbstractBaseSimpleCase;
-import io.github.rothschil.domain.entity.TblCdmaHlr;
-import io.github.rothschil.domain.repository.TblCdmaHlrRepository;
+import io.github.rothschil.domain.database.entity.TblCdmaHlr;
+import io.github.rothschil.domain.database.repository.TblCdmaHlrRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 //package io.github.rothschil.common.init;
 //
-//import io.github.rothschil.domain.entity.Intf;
-//import io.github.rothschil.domain.service.IntfService;
+//import io.github.rothschil.domain.database.entity.Intf;
+//import io.github.rothschil.domain.media.service.IntfService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;

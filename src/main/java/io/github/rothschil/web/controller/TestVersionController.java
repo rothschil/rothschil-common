@@ -1,7 +1,6 @@
 package io.github.rothschil.web.controller;
 
 import io.github.rothschil.common.annotation.ApiVersion;
-import io.github.rothschil.domain.vo.UserVo;
 import io.github.rothschil.web.compoent.TestCompoent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -2,7 +2,7 @@ package io.github.rothschil.web.controller;
 
 import io.github.rothschil.common.constant.Constant;
 import io.github.rothschil.common.utils.DateUtils;
-import io.github.rothschil.domain.vo.UserVo;
+import io.github.rothschil.domain.database.vo.UserVo;
 import io.github.rothschil.web.compoent.AsyncTask;
 import io.github.rothschil.web.compoent.TestCompoent;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ import cn.hutool.core.util.PhoneUtil;
 import io.github.rothschil.common.base.dto.RestBean;
 import io.github.rothschil.common.exception.CommonException;
 import io.github.rothschil.common.response.enums.Status;
-import io.github.rothschil.domain.entity.TblCdmaHlr;
+import io.github.rothschil.domain.database.entity.TblCdmaHlr;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
