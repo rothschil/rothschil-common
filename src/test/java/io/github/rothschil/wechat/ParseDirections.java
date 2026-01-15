@@ -21,8 +21,12 @@ public class ParseDirections extends AbstractBaseSimpleCase {
     protected void parse(File originFile){
         if(originFile.isDirectory()){
             File[] files = originFile.listFiles();
-            for (File f : files) {
-
+            for (File ifs : files) {
+                if(ifs.isDirectory()){
+                    parse(ifs);
+                }else{
+                    printFileList(ifs);
+                }
             }
         }
     }
