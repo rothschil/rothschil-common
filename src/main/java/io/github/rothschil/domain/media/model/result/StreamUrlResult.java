@@ -1,10 +1,10 @@
 package io.github.rothschil.domain.media.model.result;
 
 import cn.hutool.core.util.StrUtil;
+import io.github.rothschil.common.config.media.MediaServerConfig;
 import io.github.rothschil.domain.media.model.param.StreamProxyParam;
 import io.github.rothschil.domain.media.model.param.TestVideoParam;
-import io.github.rothschil.common.config.media.MediaServerConfig;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,40 +13,40 @@ import java.io.Serializable;
 public class StreamUrlResult implements Serializable {
     private static final long serialVersionUID = 1;
 
-    @ApiModelProperty(value = "拉流代理key")
+    @Schema(description = "拉流代理key")
     private String key;
 
-    @ApiModelProperty(value = "app")
+    @Schema(description = "app")
     private String app;
 
-    @ApiModelProperty(value = "流id")
+    @Schema(description = "流id")
     private String stream;
 
-    @ApiModelProperty("hlsUrl播放地址")
+    @Schema(description="hlsUrl播放地址")
     private String hlsUrl;
 
-    @ApiModelProperty("rtspUrl播放地址")
+    @Schema(description="rtspUrl播放地址")
     private String rtspUrl;
 
-    @ApiModelProperty("rtmpUrl播放地址")
+    @Schema(description="rtmpUrl播放地址")
     private String rtmpUrl;
 
-    @ApiModelProperty("wsflv播放地址")
+    @Schema(description="wsflv播放地址")
     private String wsFlvUrl;
 
-    @ApiModelProperty("httpflv播放地址")
+    @Schema(description="httpflv播放地址")
     private String httpFlvUrl;
 
-    @ApiModelProperty("httpFmp4Url播放地址")
+    @Schema(description="httpFmp4Url播放地址")
     private String httpFmp4Url;
 
-    @ApiModelProperty("wsFmp4Url播放地址")
+    @Schema(description="wsFmp4Url播放地址")
     private String wsFmp4Url;
 
-    @ApiModelProperty("httpTsUrl播放地址")
+    @Schema(description="httpTsUrl播放地址")
     private String httpTsUrl;
 
-    @ApiModelProperty("wsTsUrl播放地址")
+    @Schema(description="wsTsUrl播放地址")
     private String wsTsUrl;
 
     public StreamUrlResult(MediaServerConfig config, StreamProxyParam param, String key) {

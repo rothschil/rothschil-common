@@ -1,7 +1,6 @@
 package io.github.rothschil.domain.media.model.param;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,21 +12,21 @@ import java.io.Serializable;
  * @since 2023/3/30
  **/
 @Data
-@ApiModel(value = "CloseStreamsParam对象", description = "关闭流请求参数")
+@Schema(name = "CloseStreamsParam对象", description = "关闭流请求参数")
 public class CloseStreamsParam implements Serializable {
 
     private static final long serialVersionUID = 1;
 
-    @ApiModelProperty(value = "app")
+    @Schema(description = "app")
     private String app;
 
-    @ApiModelProperty(value = "流id")
+    @Schema(description = "流id")
     private String stream;
 
-    @ApiModelProperty(value = "是否强制关闭")
+    @Schema(description = "是否强制关闭")
     private Integer force=1;
 
-    @ApiModelProperty(value = "流的协议")
+    @Schema(description = "流的协议")
     private String schema;
 
 

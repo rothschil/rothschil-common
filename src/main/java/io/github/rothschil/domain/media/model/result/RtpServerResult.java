@@ -1,11 +1,10 @@
 package io.github.rothschil.domain.media.model.result;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -15,18 +14,18 @@ import java.io.Serializable;
  * @since 2023/3/30
  **/
 @Data
-@ApiModel(value = "RtpServerResult对象", description = "rtp服务")
+@Schema(name = "RtpServerResult对象", description = "rtp服务")
 public class RtpServerResult implements Serializable {
 
     private static final long serialVersionUID = 1;
 
 
     @NotNull(message = "接收端口，0则为随机端口")
-    @ApiModelProperty(value = "接收端口",required = true)
+    @Schema(description = "接收端口",required = true)
     private Integer port;
 
     @NotBlank(message = "流id不为空")
-    @ApiModelProperty(value = "流id",required = true)
+    @Schema(description = "流id",required = true)
     private String stream;
 
 

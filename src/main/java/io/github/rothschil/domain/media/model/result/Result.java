@@ -1,6 +1,6 @@
 package io.github.rothschil.domain.media.model.result;
 
-import com.ldf.media.enums.ResultEnum;
+import io.github.rothschil.domain.media.enums.ResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

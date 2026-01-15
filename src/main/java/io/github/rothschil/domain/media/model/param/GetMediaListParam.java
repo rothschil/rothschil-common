@@ -1,7 +1,6 @@
 package io.github.rothschil.domain.media.model.param;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,19 +12,19 @@ import java.io.Serializable;
  * @since 2023/3/30
  **/
 @Data
-@ApiModel(value = "GetMediaListParam对象", description = "获取流列表")
+@Schema(name = "GetMediaListParam对象", description = "获取流列表")
 public class GetMediaListParam implements Serializable {
 
     private static final long serialVersionUID = 1;
 
 
-    @ApiModelProperty(value = "app")
+    @Schema(description = "app")
     private String app;
 
-    @ApiModelProperty(value = "流id")
+    @Schema(description = "流id")
     private String stream;
 
-    @ApiModelProperty(value = "流的协议")
+    @Schema(description = "流的协议")
     private String schema;
 
 }

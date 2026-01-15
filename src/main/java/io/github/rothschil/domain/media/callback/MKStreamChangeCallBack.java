@@ -4,7 +4,7 @@ import com.aizuda.zlm4j.callback.IMKStreamChangeCallBack;
 import com.aizuda.zlm4j.structure.MK_MEDIA_SOURCE;
 import io.github.rothschil.domain.media.service.ITestVideoService;
 import io.github.rothschil.domain.media.service.ITranscodeService;
-import com.ldf.media.context.MediaServerContext;
+import io.github.rothschil.domain.media.context.MediaServerContext;
 import com.sun.jna.CallbackThreadInitializer;
 import com.sun.jna.Native;
 import lombok.extern.slf4j.Slf4j;

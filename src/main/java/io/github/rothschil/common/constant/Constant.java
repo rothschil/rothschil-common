@@ -336,7 +336,7 @@ public interface Constant {
                     "    /**\n" +
                     "     * $!column.comments\n" +
                     "     */\n" +
-                    "    @ApiModelProperty(value = \"$!column.comments\")\n" +
+                    "    @Schema(description = \"$!column.comments\")\n" +
                     "    #if($!column.columnName == $!pk.columnName)\n" +
                     "    @Id\n" +
                     "    @GeneratedValue(strategy = GenerationType.IDENTITY)\n" +
@@ -348,18 +348,18 @@ public interface Constant {
                     "\n" +
                     "  #end\n" +
                     "\n" +
-                    "    @ApiModelProperty(value = \"创建时间\")\n" +
+                    "    @Schema(description = \"创建时间\")\n" +
                     "    @CreatedDate\n" +
                     "    @Column(name = \"gmt_create\", updatable = false)\n" +
                     "    @Temporal(TemporalType.TIMESTAMP)\n" +
                     "    private Date gmtCreate;\n" +
-                    "    @ApiModelProperty(value = \"修改时间\")\n" +
+                    "    @Schema(description = \"修改时间\")\n" +
                     "    @LastModifiedDate\n" +
                     "    @Column(name = \"gmt_modified\", insertable = false)\n" +
                     "    @Temporal(TemporalType.TIMESTAMP)\n" +
                     "    private Date gmtModified;\n" +
                     "\n" +
-                    "    @ApiModelProperty(value = \"状态值\")\n" +
+                    "    @Schema(description = \"状态值\")\n" +
                     "    @Column(name = \"valid\", columnDefinition = \"integer\")\n" +
                     "    private Integer valid;\n" +
                     "}\n" );

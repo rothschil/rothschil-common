@@ -1,10 +1,10 @@
 package io.github.rothschil.domain.media.service.impl;
 
 import io.github.rothschil.common.config.media.MediaServerConfig;
+import io.github.rothschil.domain.media.bo.TestVideo;
 import io.github.rothschil.domain.media.model.param.TestVideoParam;
 import io.github.rothschil.domain.media.model.result.StreamUrlResult;
 import io.github.rothschil.domain.media.service.ITestVideoService;
-import com.ldf.media.module.test.TestVideo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

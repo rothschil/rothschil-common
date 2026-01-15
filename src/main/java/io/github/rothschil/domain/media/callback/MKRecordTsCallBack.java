@@ -2,7 +2,7 @@ package io.github.rothschil.domain.media.callback;
 
 import com.aizuda.zlm4j.callback.IMKRecordTsCallBack;
 import com.aizuda.zlm4j.structure.MK_RECORD_INFO;
-import com.ldf.media.context.MediaServerContext;
+import io.github.rothschil.domain.media.context.MediaServerContext;
 import com.sun.jna.CallbackThreadInitializer;
 import com.sun.jna.Native;
 import org.springframework.stereotype.Component;

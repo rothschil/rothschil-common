@@ -7,13 +7,17 @@ import com.aizuda.zlm4j.structure.MK_MEDIA;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 
+
 import java.awt.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import static com.ldf.media.context.MediaServerContext.ZLM_API;
+import static io.github.rothschil.domain.media.context.MediaServerContext.ZLM_API;
+import io.github.rothschil.domain.media.model.param.TestVideoParam;
+
 
 public class TestVideo {
+
     private TestVideoParam param;
     private MK_MEDIA mkMedia;
     private Pointer yPointer;

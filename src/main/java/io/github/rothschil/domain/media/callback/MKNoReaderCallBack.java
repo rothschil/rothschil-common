@@ -2,9 +2,9 @@ package io.github.rothschil.domain.media.callback;
 
 import com.aizuda.zlm4j.callback.IMKNoReaderCallBack;
 import com.aizuda.zlm4j.structure.MK_MEDIA_SOURCE;
-import com.ldf.media.context.MediaServerContext;
 import com.sun.jna.CallbackThreadInitializer;
 import com.sun.jna.Native;
+import io.github.rothschil.domain.media.context.MediaServerContext;
 import org.springframework.stereotype.Component;
 
 /**

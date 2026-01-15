@@ -11,7 +11,7 @@ import com.sun.jna.Native;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.ldf.media.context.MediaServerContext.ZLM_API;
+import static io.github.rothschil.domain.media.context.MediaServerContext.ZLM_API;
 
 /**
  * 推流回调

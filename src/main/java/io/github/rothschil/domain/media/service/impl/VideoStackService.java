@@ -3,11 +3,11 @@ package io.github.rothschil.domain.media.service.impl;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.aizuda.zlm4j.structure.MK_MEDIA_SOURCE;
+import io.github.rothschil.common.config.media.MediaServerConfig;
+import io.github.rothschil.domain.media.constants.MediaServerConstants;
+import io.github.rothschil.domain.media.model.VideoStack;
 import io.github.rothschil.domain.media.model.param.VideoStackParam;
 import io.github.rothschil.domain.media.service.IVideoStackService;
-import io.github.rothschil.common.config.media.MediaServerConfig;
-import com.ldf.media.constants.MediaServerConstants;
-import com.ldf.media.module.stack.VideoStack;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ldf.media.context.MediaServerContext.ZLM_API;
+import static io.github.rothschil.domain.media.context.MediaServerContext.ZLM_API;
 
 @Slf4j
 @Service
