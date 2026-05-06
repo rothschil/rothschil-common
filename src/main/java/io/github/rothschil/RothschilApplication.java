@@ -22,9 +22,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class RothschilApplication {
 
 	public static void main(String[] args) {
+		long start = System.currentTimeMillis();
 		SpringApplication app =new SpringApplication(RothschilApplication.class);
 		Environment env = app.run(args).getEnvironment();
-		Version.printlnVersionInfo(env);
+		Version.printlnVersionInfo(env,start);
 	}
 
 }

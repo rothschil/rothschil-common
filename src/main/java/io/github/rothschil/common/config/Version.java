@@ -13,7 +13,7 @@ public class Version {
     public static final String module  = "ROTHSCHIL";
     public static final String version = "v1.07.000";
 
-    public static void printlnVersionInfo(Environment env) {
+    public static void printlnVersionInfo(Environment env,long start) {
         try {
             String path = env.getProperty("server.servlet.context-path");
             if (StringUtils.isEmpty(path)) {
@@ -25,15 +25,18 @@ public class Version {
             String[] profiles = env.getActiveProfiles();
             String address = InetAddress.getLocalHost().getHostAddress();
 
+            long end = System.currentTimeMillis();
+
             log.info(
                     "\t\n----------------------------------------------------------\t\n"
                             + "Application '{}' is running! \t\n"
                             + "Profile(s): \t{}\n"
                             + "Access URLs: http://{}:{}{}\n"
                             + "Application Network Environment \t{}\n"
-                            + "Enable Configuration \t{}"
+                            + "Enable Configuration \t{}\n"
+                            + "Application startup time \t{} ms"
                             +"\t\n----------------------------------------------------------\t\n",
-                    appName, profiles,address,port,path,NativeUtil.ipNetworkSegment(),NativeUtil.judgmentEnv().getCode());
+                    appName, profiles,address,port,path,NativeUtil.ipNetworkSegment(),NativeUtil.judgmentEnv().getCode(),(end-start));
 
             VersionCommit.print();
         } catch (UnknownHostException e) {
