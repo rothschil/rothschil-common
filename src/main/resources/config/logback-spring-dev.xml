@@ -105,7 +105,7 @@
     </logger>
 
     <!-- 主日志输出 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_MAIN_FILE"/>
     </root>

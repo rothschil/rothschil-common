@@ -21,4 +21,8 @@ public class ExcelUtils {
         excelWriter.write(list, sheet);
         excelWriter.finish();
     }
+
+    public static void writeExcel(String filePath, List<PrizeDo> data, Class<?> clazz){
+        EasyExcel.write(filePath, clazz).sheet().doWrite(data);
+    }
 }

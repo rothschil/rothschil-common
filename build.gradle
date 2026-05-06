@@ -113,11 +113,11 @@ dependencies {
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
 
     // 推拉流
-    implementation('com.aizuda:zlm4j:1.7.1')
-    implementation('net.java.dev.jna:jna:5.18.1')
-    implementation('org.bytedeco:javacv:1.5.10')
-    implementation('org.bytedeco:ffmpeg:6.1.1-1.5.10')
-    implementation('com.alibaba:easyexcel:2.0.5')
+//    implementation('com.aizuda:zlm4j:1.7.1')
+//    implementation('net.java.dev.jna:jna:5.18.1')
+//    implementation('org.bytedeco:javacv:1.5.10')
+//    implementation('org.bytedeco:ffmpeg:6.1.1-1.5.10')
+//    implementation('com.alibaba:easyexcel:2.0.5')
 
 
 }
