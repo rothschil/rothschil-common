@@ -198,11 +198,11 @@
 
         <!-- 其他依赖 -->
 
-<!--        <dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
             <version>5.4.4</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>net.sf.barcode4j</groupId>
             <artifactId>barcode4j-light</artifactId>
@@ -403,7 +403,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--表示编译版本配置有效-->
-                    <fork>true</fork>
+<!--                    <fork>true</fork>-->
                     <!--引入第三方jar包时,不添加则引入的第三方jar不会被打入jar包中-->
                     <includeSystemScope>true</includeSystemScope>
                     <!--排除第三方jar文件-->
