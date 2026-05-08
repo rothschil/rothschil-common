@@ -10,14 +10,19 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+
+base:
+  db:
+    url: D:/Code/Github/Rothschil/rothschil-common/Doc/Repertory
+
 data:
   url:
     master:
-      url: D:/Code/98_Github/Blink/rothschil-common/Doc/h2/Repertory/memdb
+      url: ${base.db.url}/h2/memdb
       username: sa
       password: 123456
     salve:
-      url: db/tbl_cdma_hlr.db
+      url: ${base.db.url}/sqlite/tbl_cdma_hlr.db
       username: sa
       password: 123456
 
