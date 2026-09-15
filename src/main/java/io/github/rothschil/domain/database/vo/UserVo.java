@@ -1,5 +1,7 @@
 package io.github.rothschil.domain.database.vo;
 
+import io.github.rothschil.common.annotation.Sensitive;
+import io.github.rothschil.common.enums.SensitiveType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,4 +39,13 @@ public class UserVo {
     @NotNull(message = "哪一月")
     @Email(message = "哪一月")
     private int whichMonth;
+
+    @Sensitive(SensitiveType.PHONE)
+    private String phone;
+
+    @Sensitive(SensitiveType.ID_CARD)
+    private String idCard;
+
+    @Sensitive(SensitiveType.BANK_CARD)
+    private String bankCard;
 }

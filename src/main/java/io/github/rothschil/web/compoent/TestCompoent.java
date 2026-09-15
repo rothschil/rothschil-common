@@ -25,9 +25,9 @@ public class TestCompoent {
         int id = new Random().nextInt(90) + 10;
         try {
             Thread.sleep(1000);
-            vo = UserVo.builder().email("wongs@qq.com").account(DateUtils.getTransId()).password("取你狗命").id(id).build();
+            vo = UserVo.builder().email("wongs@qq.com").account(DateUtils.getTransId()).password("取你狗命").phone("18912345678").id(id).build();
         } catch (InterruptedException e) {
-            vo=UserVo.builder().email("wongs@qq.com").account(DateUtils.getTransId()).password("发生了异常").id(id).build();
+            vo=UserVo.builder().email("wongs@qq.com").account(DateUtils.getTransId()).password("发生了异常").phone("18912345678").id(id).build();
         }
         log.info("重新查询获取数据为 {}",vo.toString());
         return vo;

@@ -44,12 +44,13 @@ public class ValidationController {
     public UserVo query(){
         asyncTask.async();
         int id = new Random().nextInt(90) + 10;
-        String acct = DateUtils.getDate(DateUtils.TRANS_MONTH_PATTERN);
+        String acct = DateUtils.getDate(DateUtils.TRANS_PATTERN);
         UserVo userVo = new UserVo();
         userVo.setEmail("wongs@qq.com");
         userVo.setAccount(acct);
         userVo.setPassword("Dog");
         userVo.setId(id);
+        userVo.setPhone("18956061234");
         return testCompoent.get(userVo);
     }
 
