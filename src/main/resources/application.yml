@@ -63,3 +63,6 @@ knife4j:
     username: admin
     password: 123
 
+jasypt:
+  encryptor:
+    password: "@nhuihefei"

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +40,19 @@ public class ApiController extends BaseController{
     }
 
 
+    @Operation(summary = "具体明文密码")
+    @Parameters({
+            @Parameter(name = "password", description = "password", required = true)
+    })
+    @RequestMapping(value = "/jasypt/{password}",method = RequestMethod.GET)
+    public String jasypt(@PathVariable(value = "password") String password){
+        if(StringUtils.isBlank(password)){
+            throw new CommonException(Status.PARAMS_NOT_COMPLETE,"明文密码为空");
+        }
+        return stringEncryptor.encrypt(password);
+    }
+
+
     @Hidden
     @RequestMapping(value = "/api/gracefulshutdown",method = RequestMethod.GET)
     public RestBean gracefulShutdown(){
@@ -51,5 +65,6 @@ public class ApiController extends BaseController{
         return new RestBean(200,"DemoCase");
     }
 
+    //
 
 }

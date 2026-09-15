@@ -2,6 +2,7 @@ package io.github.rothschil.web.controller;
 
 import io.github.rothschil.domain.database.service.TblCdmaHlrService;
 import io.swagger.v3.oas.annotations.Hidden;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -11,6 +12,9 @@ public class BaseController {
 
     @Autowired
     protected TblCdmaHlrService tblCdmaHlrService;
+
+    @Autowired
+    protected StringEncryptor stringEncryptor;
 
 
 }
