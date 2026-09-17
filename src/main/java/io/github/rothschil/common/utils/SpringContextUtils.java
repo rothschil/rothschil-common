@@ -45,6 +45,17 @@ public class SpringContextUtils implements ApplicationContextAware {
     }
 
     /**
+     * 根据bean的id和类型获取bean对象
+     * @param beanName
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBean(String beanName,Class<T> clazz){
+        return clazz.cast(getBean(beanName));
+    }
+
+    /**
      * 清除applicationContext静态变量.
      */
     public static void cleanApplicationContext() {

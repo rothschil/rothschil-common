@@ -3,7 +3,6 @@ package io.github.rothschil.common.base.persistence.repository;
 import io.github.rothschil.common.base.persistence.entity.AbstractEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +31,7 @@ public interface BaseRepository<T extends AbstractEntity, ID extends Serializabl
      * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
      * @param ids 主键列表
      **/
+    @Deprecated
     void delete(ID[] ids);
 
 

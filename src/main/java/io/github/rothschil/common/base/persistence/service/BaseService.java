@@ -106,7 +106,7 @@ public abstract class BaseService<R extends JpaRepository<T,ID>, T extends Abstr
      * @date        2018/7/3 22:08
      */
     public boolean exists(ID id) {
-        return findOne(id) == null;
+        return findOne(id) != null;
     }
 
 

@@ -33,16 +33,21 @@ spring:
       test-on-borrow: false
       test-on-return: false
   jpa:
+    open-in-view: false
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
     #        use_sql_comments: true
     open-in-view: false
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: false
-        enable_lazy_load_no_trans: true
+#        enable_lazy_load_no_trans: true
+        hbm2ddl:
+          auto: none
+        temp:
+          use_jdbc_metadata_defaults: false
     generate-ddl: false
     defer-datasource-initialization: true
   transaction:
@@ -55,7 +60,7 @@ spring:
         web-allow-others: true
       enabled: true
   cache:
-    type: composite
+#    type: composite
     caffeine:
       spec: maximumSize=500,expireAfterWrite=60s
   redis:
@@ -66,4 +71,6 @@ logging:
 
 dynamic:
   enabled: true
+
+
 

@@ -4,6 +4,9 @@ import io.github.rothschil.common.base.persistence.entity.AbstractEntity;
 import io.github.rothschil.common.constant.Constant;
 import io.github.rothschil.common.utils.ReflectUtil;
 import io.github.rothschil.common.utils.SortUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Id;
+import jakarta.persistence.Query;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Id;
-import jakarta.persistence.Query;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -64,9 +64,10 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
             Query query=entityManager.createQuery(sql);
             query.setParameter(1,value);
             list= query.getResultList();
-            entityManager.close();
         }catch (Exception e){
             log.error("findByField Exception {}",e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return list;
     }
@@ -100,9 +101,11 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
                 query.setParameter(i+1,map.get(filedlist.get(i)));
             }
             listRe= query.getResultList();
-            entityManager.close();
+
         }catch (Exception e){
             log.error("findByField Exception {}",e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return listRe;
     }
@@ -181,14 +184,17 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
                 query.setParameter(i+1,param.get(i));
             }
             listRe= query.getResultList();
-            entityManager.close();
+
         }catch (Exception e){
             log.error("findByField Exception {}",e.getMessage());
+        } finally {
+            entityManager.close();
         }
         return listRe;
     }
 
 
+    @Deprecated
     @Override
     public void delete(ID[] ids) {
 

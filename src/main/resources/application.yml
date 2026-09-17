@@ -10,7 +10,6 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
-
 base:
   db:
     url: D:/Code/Github/Rothschil/rothschil-common/Doc/Repertory
@@ -66,3 +65,25 @@ knife4j:
 jasypt:
   encryptor:
     password: "@nhuihefei"
+
+# 多级缓存自定义配置
+cache:
+  multi:
+    # Caffeine配置
+    caffeine:
+      init-size: 10000
+      max-size: 500000
+      # 本地缓存TTL
+      expire-seconds: 3600
+    bloom:
+      #布隆key名称
+      name: bloom:user:id
+      #预估数据量
+      expectedInsertions: 100000
+      #误判率1%
+      falseProbability: 0.01
+    # Redis配置
+    redis:
+      expire-seconds: 300 # 正常数据Redis TTL
+      null-expire-seconds: 30 # 空值TTL，很短
+    random-offset-seconds: 30 # 过期随机偏移，防雪崩

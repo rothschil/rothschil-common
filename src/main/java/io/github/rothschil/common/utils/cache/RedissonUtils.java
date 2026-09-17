@@ -35,6 +35,7 @@ public class RedissonUtils {
     private static final RedissonClient CLIENT = SpringContextUtils.getBean(RedissonClient.class);
 
 
+
     /**
      * 限流
      *
@@ -132,7 +133,7 @@ public class RedissonUtils {
      */
     public static <T> void setCacheObject(final String key, final T value, final Duration duration) {
         RBatch batch = CLIENT.createBatch();
-        RBucketAsync<T> bucket = batch.getBucket(key);
+        RBucketAsync<T> bucket = batch.getBucket(key,new StringCodec());
         bucket.setAsync(value);
         bucket.expireAsync(duration);
         batch.execute();
@@ -613,6 +614,7 @@ public class RedissonUtils {
      * @param expired 缓存过期时间
      */
     public static Boolean setIfAbsent(String key, String value, long expired) {
+
         RBucket<String> bucket = CLIENT.getBucket(key, StringCodec.INSTANCE);
         return bucket.trySet(value, expired <= 0L ? DEFAULT_EXPIRED : expired, TimeUnit.SECONDS);
     }

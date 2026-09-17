@@ -26,13 +26,15 @@ public class CacheUtils {
     /**
      * 默认15分钟，测试环境 5分钟
      */
-    static int DEFALUT_EXPIRED = 0XDBBA0;
+    static int DEFAULT_EXPIRED = 0XDBBA0;
 
     /**
      * 默认5分钟
      */
     static int MAX_1ST = 0X493E0;
 
+
+//    static final RBloomFilter<String> BLOOM_FILTER = SpringContextUtils.getBean(RBloomFilter.class);
 
     /**
      * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
@@ -41,10 +43,7 @@ public class CacheUtils {
      * @param enableCaffeine    是否启用二级Caffeine，true 启用
      **/
     public static void set(String k, String v,boolean enableCaffeine) {
-        if(enableCaffeine){
-            CaffeineCacheUtil.putIntoCache(k,v,60);
-        }
-        set(k,v,DEFALUT_EXPIRED,enableCaffeine);
+        set(k,v, DEFAULT_EXPIRED,enableCaffeine);
     }
 
 
@@ -54,7 +53,7 @@ public class CacheUtils {
      * @param v 值
      **/
     public static void set(String k, String v) {
-        set(k,v,DEFALUT_EXPIRED,false);
+        set(k,v, DEFAULT_EXPIRED,false);
     }
 
 
@@ -80,8 +79,8 @@ public class CacheUtils {
      * @param expired   失效时间，单位毫秒
      **/
     public static void set(String k, String v, Integer expired) {
-        if (expired < DEFALUT_EXPIRED) {
-            expired = DEFALUT_EXPIRED;
+        if (expired < DEFAULT_EXPIRED) {
+            expired = DEFAULT_EXPIRED;
         } else if (expired > MAX_EXPIRED) {
             expired = MAX_EXPIRED;
         }
@@ -98,6 +97,7 @@ public class CacheUtils {
      * @param enableCaffeine    是否启用二级Caffeine，true 启用
      **/
     public static String get(String k,boolean enableCaffeine) {
+
 
         Object obj=null;
         if(enableCaffeine){

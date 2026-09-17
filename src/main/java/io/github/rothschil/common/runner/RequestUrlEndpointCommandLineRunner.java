@@ -1,6 +1,6 @@
 package io.github.rothschil.common.runner;
 
-import io.github.rothschil.common.utils.ApplicationContextUtils;
+import io.github.rothschil.common.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class RequestUrlEndpointCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("-----------------开始采集项目所有的http接口信息------------------------");
 
-        RequestMappingHandlerMapping handlerMapping = ApplicationContextUtils.getBean("requestMappingHandlerMapping",RequestMappingHandlerMapping.class);
+        RequestMappingHandlerMapping handlerMapping = SpringContextUtils.getBean("requestMappingHandlerMapping",RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
         List<Map<String, String>> list = new ArrayList<>();
         handlerMethods.forEach((requestMappingInfo , handlerMethod) -> {

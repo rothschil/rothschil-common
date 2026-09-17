@@ -79,33 +79,33 @@
     </appender>
 
     <!-- hibernate的sql输出 -->
-    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+    <logger name="org.hibernate.SQL" level="INFO" additivity="false">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_SQL_FILE"/>
     </logger>
 
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO" additivity="false">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_SQL_FILE"/>
     </logger>
 
-    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" additivity="false">
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="INFO" additivity="false">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_SQL_FILE"/>
     </logger>
 
-    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" additivity="false">
+    <logger name="org.hibernate.engine.QueryParameters" level="INFO" additivity="false">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_SQL_FILE"/>
     </logger>
 
-    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" additivity="false">
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="INFO" additivity="false">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_SQL_FILE"/>
     </logger>
 
-    <!-- 主日志输出 -->
-    <root level="DEBUG">
+    <!-- 主日志输出 DEBUG INFO-->
+    <root level="INFO">
         <appender-ref ref="ASYNC_STD_OUT"/>
         <appender-ref ref="ASYNC_MAIN_FILE"/>
     </root>

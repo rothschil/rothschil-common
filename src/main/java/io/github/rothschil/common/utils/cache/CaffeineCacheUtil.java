@@ -3,17 +3,31 @@ package io.github.rothschil.common.utils.cache;
 import io.github.rothschil.common.config.cache.caffeine.CaffeineEntry;
 import cn.hutool.extra.spring.SpringUtil;
 import com.github.benmanes.caffeine.cache.Cache;
+import io.github.rothschil.common.utils.SpringContextUtils;
+import jakarta.annotation.PostConstruct;
+import org.redisson.api.RBloomFilter;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class CaffeineCacheUtil {
 
+
     private static Cache cache = null;
 
-    static {
+    private static RBloomFilter BLOOM_FILTER;
+
+//    static {
+//        cache = SpringUtil.getBean(Cache.class);
+//        BLOOM_FILTER = SpringUtil.getBean(RBloomFilter.class);
+//    }
+
+    @PostConstruct
+    public void getInit(){
         cache = SpringUtil.getBean(Cache.class);
+        BLOOM_FILTER = SpringUtil.getBean(RBloomFilter.class);
     }
+
 
     /**
      * 加入缓存，默认过期时间24小时且读后不刷新
@@ -91,7 +105,7 @@ public class CaffeineCacheUtil {
     public static <T> List<T> getCacheObjectList(String key, Class<T> clazz) {
         final Object result = getCacheObject(key);
         if (Objects.nonNull(result)) {
-            Collection<?> collection = (Collection<?>) result;
+            Collection<T> collection = (Collection<T>) result;
             List<T> list = new ArrayList<>();
             collection.forEach(item -> list.add(clazz.cast(item)));
             return list;
@@ -106,6 +120,13 @@ public class CaffeineCacheUtil {
      * @return
      */
     public static Object getCacheObject(String key) {
+        // ========== 布隆过滤器前置拦截 ==========
+        boolean mightContain = BLOOM_FILTER.contains(key);
+        if (mightContain) {
+            // 布隆判定不存在：直接返回null，不查Redis、DB
+            return null;
+        }
+
         final Object[] value = {null};
         CaffeineEntry entry=(CaffeineEntry)cache.getIfPresent(key);
         Optional.ofNullable(entry)
