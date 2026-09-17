@@ -17,7 +17,6 @@ spring:
         name: ds_sqlite
         driver-class-name: org.sqlite.JDBC
         url: jdbc:sqlite:${data.url.salve.url}
-#        url: jdbc:sqlite::resource:${data.url.salve.url}
         username:
         password:
         test-while-idle: false
@@ -50,13 +49,15 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
-    #        use_sql_comments: true
     open-in-view: false
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: false
-        enable_lazy_load_no_trans: true
+        hbm2ddl:
+          auto: none
+        temp:
+          use_jdbc_metadata_defaults: false
     generate-ddl: false
     defer-datasource-initialization: false
   transaction:
@@ -69,7 +70,6 @@ spring:
         web-allow-others: true
       enabled: true
   cache:
-    type: composite
     caffeine:
       spec: maximumSize=500,expireAfterWrite=60s
   redis:

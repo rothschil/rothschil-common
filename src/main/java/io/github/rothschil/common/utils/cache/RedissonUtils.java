@@ -3,6 +3,7 @@ package io.github.rothschil.common.utils.cache;
 import io.github.rothschil.common.utils.SpringContextUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.RedissonRedLock;
 import org.redisson.api.*;
 import org.redisson.client.codec.StringCodec;
@@ -22,6 +23,7 @@ import java.util.stream.Stream;
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
  * @version 1.0.0
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedissonUtils {
@@ -112,7 +114,7 @@ public class RedissonUtils {
      * @since Redis 6.X 以上使用 setAndKeepTTL 兼容 5.X 方案
      */
     public static <T> void setCacheObject(final String key, final T value, final boolean isSaveTtl) {
-        RBucket<T> bucket = CLIENT.getBucket(key);
+        RBucket<T> bucket = CLIENT.getBucket(key,new StringCodec());
         if (isSaveTtl) {
             try {
                 bucket.setAndKeepTTL(value);
@@ -395,7 +397,7 @@ public class RedissonUtils {
      */
     public static <T> Map<String, T> getCacheMap(final String key) {
         RMap<String, T> rMap = CLIENT.getMap(key);
-        return rMap.getAll(rMap.keySet());
+        return rMap.readAllMap();
     }
 
     /**
@@ -706,7 +708,7 @@ public class RedissonUtils {
             boolean isLocked = redLock.tryLock(waitTime, leaseTime, timeUnit);
             if (isLocked) {
                 // 业务逻辑（如库存扣减）
-
+                log.info("try Lock {} ",isLocked);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

@@ -66,8 +66,6 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
             list= query.getResultList();
         }catch (Exception e){
             log.error("findByField Exception {}",e.getMessage());
-        } finally {
-            entityManager.close();
         }
         return list;
     }
@@ -104,8 +102,6 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
 
         }catch (Exception e){
             log.error("findByField Exception {}",e.getMessage());
-        } finally {
-            entityManager.close();
         }
         return listRe;
     }
@@ -187,8 +183,6 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
 
         }catch (Exception e){
             log.error("findByField Exception {}",e.getMessage());
-        } finally {
-            entityManager.close();
         }
         return listRe;
     }
