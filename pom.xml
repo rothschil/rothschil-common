@@ -91,13 +91,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-
-<!--        <dependency>
-            <groupId>com.github.gavlyukovskiy</groupId>
-            <artifactId>p6spy-spring-boot-starter</artifactId>
-            <version>1.9.2</version>
-        </dependency>-->
-
         <dependency>
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
@@ -183,12 +176,6 @@
 
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.83</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.2.9</version>
         </dependency>
@@ -212,12 +199,6 @@
             <version>2.0</version>
         </dependency>
 
-<!--        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
-        </dependency>-->
-
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
@@ -230,12 +211,6 @@
             <version>3.19.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.3</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -245,6 +220,10 @@
                 <exclusion>
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-lang3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -370,6 +349,16 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-compress</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -384,6 +373,10 @@
                 <exclusion>
                     <groupId>org.apache.poi</groupId>
                     <artifactId>poi-ooxml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.xmlbeans</groupId>
+                    <artifactId>xmlbeans</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -493,9 +486,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
     </build>

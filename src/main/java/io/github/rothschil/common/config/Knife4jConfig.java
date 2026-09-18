@@ -11,16 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class Knife4jConfig {
-//    @Bean
-//    public OpenAPI customOpenAPI() {
-//        Contact con = new Contact();
-//        return new OpenAPI()
-//                .info(new Info()
-//                        .title("API 文档")
-//                        .description("SpringBoot3 集成 Knife4j 示例")
-//                        .version("1.0.0")
-//                        .contact(con));
-//    }
 
 
     @Bean
@@ -30,17 +20,7 @@ public class Knife4jConfig {
                 .displayName("所有接口")
                 .packagesToScan("io.github.rothschil")
                 // 自定义全局响应码
-//                .addOpenApiCustomizer((this::setCustomStatusCode))
                 .build();
     }
-
-//    private Info apiInfo() {
-//        return new ApiInfoBuilder()
-//                .description("Rothschil接口测试文档")
-//                .contact(new Contact("WONGS", "https://blog.csdn.net/rothchil", "WCNGS@QQ.COM"))
-//                .version("v1.0")
-//                .title("API测试文档")
-//                .build();
-//    }
 
 }

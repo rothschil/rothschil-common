@@ -1,9 +1,11 @@
 package io.github.rothschil.web.compoent;
 
 import io.github.rothschil.domain.database.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class ValidationUserCompoent {
 
@@ -16,7 +18,7 @@ public class ValidationUserCompoent {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.info("{}",e.getMessage());
         }
         return null;
     }

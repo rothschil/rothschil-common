@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -209,27 +208,15 @@ public class TextUtil {
         try {
             number = Integer.parseInt(txt);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("{}",e.getMessage());
         }
 
         return number;
     }
 
-    /**
-     * 将错误信息转为字符串
-     *
-     * @param e
-     * @return
-     */
-    public static String exToStr(Throwable e) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        e.printStackTrace(new PrintStream(baos));
-        return baos.toString();
-    }
 
     public static String exToStr(Exception e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        e.printStackTrace(new PrintStream(baos));
         return baos.toString();
     }
 

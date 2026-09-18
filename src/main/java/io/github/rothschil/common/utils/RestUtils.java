@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.webservice.SoapClient;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSON;
 import io.github.rothschil.common.base.dto.AmazTuple;
 import io.github.rothschil.common.base.dto.RestBean;
 import io.github.rothschil.common.base.vo.AbsBaseReq;
@@ -30,7 +29,6 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -54,12 +52,14 @@ public class RestUtils extends BaseUtils{
      **/
     public static <T extends BaseResp> T post(String intfCode,AbsBaseReq req, Class<T> baseRespClass,HttpHeaders appendHttpHeaders) {
         IntfConfEntity intfConf = getIntfConf(intfCode);
-        RestBean restBean = RestUtils.post(intfConf, JSON.toJSONString(req), appendHttpHeaders);
+//        RestBean restBean = RestUtils.post(intfConf, JSON.toJSONString(req), appendHttpHeaders);
+        RestBean restBean = RestUtils.post(intfConf, JSONUtil.toJsonStr(req), appendHttpHeaders);
         if (restBean.getCode() != HttpStatus.OK.value()) {
             throw new CommonException(Status.API_NOT_FOUND_EXCEPTION,restBean);
         }
         String respJson = restBean.getResp();
-        T t = com.alibaba.fastjson.JSONObject.parseObject(respJson, baseRespClass);
+//        T t = com.alibaba.fastjson.JSONObject.parseObject(respJson, baseRespClass);
+        T t = JSONUtil.toBean(respJson,baseRespClass);
         String remark = restBean.getRemark();
         t.setRemark(remark);
         return t;
@@ -75,12 +75,13 @@ public class RestUtils extends BaseUtils{
      * @return T
      **/
     public static <T extends BaseResp> T post(IntfConfEntity intfConfEntity,AbsBaseReq req, Class<T> baseRespClass,HttpHeaders appendHttpHeaders) {
-        RestBean restBean = RestUtils.post(intfConfEntity, JSON.toJSONString(req), appendHttpHeaders);
+        RestBean restBean = RestUtils.post(intfConfEntity, JSONUtil.toJsonStr(req), appendHttpHeaders);
         if (restBean.getCode() != HttpStatus.OK.value()) {
             throw new CommonException(Status.API_NOT_FOUND_EXCEPTION,restBean);
         }
         String respJson = restBean.getResp();
-        T t = com.alibaba.fastjson.JSONObject.parseObject(respJson, baseRespClass);
+        T t = JSONUtil.toBean(respJson,baseRespClass);
+//        T t = com.alibaba.fastjson.JSONObject.parseObject(respJson, baseRespClass);
         String remark = restBean.getRemark();
         t.setRemark(remark);
         return t;
@@ -165,7 +166,8 @@ public class RestUtils extends BaseUtils{
             throw new CommonException(Status.FAILURE,restBean);
         }
         String respJson = restBean.getResp();
-        return com.alibaba.fastjson.JSONObject.parseObject(respJson, baseRespClass);
+//        return com.alibaba.fastjson.JSONObject.parseObject(respJson, baseRespClass);
+        return JSONUtil.toBean(respJson,baseRespClass);
     }
 
     public static RestBean postSpecialHeader(String serviceName, Map map, HttpHeaders headerInfo) {

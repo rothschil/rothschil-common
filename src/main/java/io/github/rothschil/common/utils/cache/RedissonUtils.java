@@ -710,8 +710,8 @@ public class RedissonUtils {
                 // 业务逻辑（如库存扣减）
                 log.info("try Lock {} ",isLocked);
             }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException | IllegalMonitorStateException e) {
+            log.info("key {} try Lock fail ",k);
         } finally {
             redLock.unlock();
         }

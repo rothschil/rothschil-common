@@ -690,19 +690,19 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 			return isSameMonth
 					&& cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("{}",e.getMessage());
 		}
 		return false;
 	}
 
 
 	public static final Date dateTime(final String format, final String ts) {
-
 		try {
 			return new SimpleDateFormat(format).parse(ts);
 		} catch (ParseException e) {
-			throw new RuntimeException(e);
+			log.info("{} ",e.getMessage());
 		}
+		return null;
 	}
 
 	/**

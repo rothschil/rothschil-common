@@ -4,8 +4,7 @@ package io.github.rothschil.common.config.cache.aspect;
 import cn.hutool.core.bean.BeanPath;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Lists;
 import io.github.rothschil.common.config.annotation.Cacheable;
 import io.github.rothschil.common.handler.AopSpelProcess;
@@ -80,15 +79,18 @@ public class CacheAspect {
         Object result = joinPoint.proceed();
         if(ObjectUtil.isNotNull(result)){
             // 将结果放入Caffeine和Redis缓存
-            String val = JSONObject.toJSONString(result);
+
+            String val = JSONUtil.toJsonStr(result);
             CacheUtils.set(key,val,enableCaffeine);
         }
         return result;
     }
 
     protected Object structure(MethodSignature methodSignature,String obj){
-        Object parse = JSON.parse(obj);
-        return JSONObject.parseObject(parse.toString(), methodSignature.getReturnType());
+//        Object parse = JSONUtil.parseObj(obj);
+//        Object parse = JSON.parse(obj);
+        return JSONUtil.toBean(obj,methodSignature.getReturnType());
+//        return JSONObject.parseObject(parse.toString(), methodSignature.getReturnType());
     }
 
     /** 获取缓存key

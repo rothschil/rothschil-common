@@ -1,6 +1,8 @@
 package io.github.rothschil.common.utils.thread;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2017/12/2 14:51
  * @since 1.0.0
 */
+@Slf4j
 @SuppressWarnings("unused")
 public class ThreadUnit implements Runnable{
 
@@ -28,7 +31,7 @@ public class ThreadUnit implements Runnable{
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.info("{}",e.getMessage());
         }
     }
 

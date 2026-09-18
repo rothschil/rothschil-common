@@ -1,8 +1,7 @@
 package io.github.rothschil.common.utils.cache;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -139,8 +138,9 @@ public class CacheUtils {
             String obj = get(k);
             log.debug("[Hit Second Cache Class=Method] [Key]\n{} Cache Value ={}", k, obj);
             if (ObjectUtil.isNotNull(obj)) {
-                Object parse = JSON.parse(obj);
-                return JSONObject.parseObject(parse.toString(), clazz);
+//                Object parse = JSON.parse(obj);
+//                return JSONObject.parseObject(parse.toString(), clazz);
+                return JSONUtil.toBean(obj,clazz);
             }
         } catch (Exception e) {
             Throwable rootCause = ExceptionUtils.getRootCause(e);

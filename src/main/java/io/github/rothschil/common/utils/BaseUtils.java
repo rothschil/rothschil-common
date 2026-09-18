@@ -5,8 +5,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.webservice.SoapClient;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import io.github.rothschil.common.base.dto.AmazTuple;
 import io.github.rothschil.common.base.dto.RestBean;
 import io.github.rothschil.common.base.vo.AbsIvrVo;
@@ -273,7 +271,8 @@ public abstract class BaseUtils {
                                              String childElement,
                                              Map<String, String> mapSoapElement) {
         SoapClient soapClient = null;
-        Map<String,String> map = JSON.parseObject(intfConfEntity.getHeaderInfo(), new TypeReference<HashMap<String, String>>() {});
+//        Map<String,String> map = JSON.parseObject(intfConfEntity.getHeaderInfo(), new TypeReference<HashMap<String, String>>() {});
+        HashMap map = JSONUtil.toBean(intfConfEntity.getHeaderInfo(),HashMap.class);
         try {
             soapClient = SoapClient.create(intfConfEntity.getAddress()).header("SOAPAction","application/soap+xml;charset=utf-8").headerMap(map,true)
                     .setReadTimeout(intfConfEntity.getTimeout())

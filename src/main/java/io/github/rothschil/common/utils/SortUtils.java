@@ -1,6 +1,7 @@
 package io.github.rothschil.common.utils;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.github.rothschil.common.constant.Constant;
 import org.springframework.data.domain.Sort;
 
@@ -20,7 +21,8 @@ public class SortUtils {
     public static Sort sortAttr(Map<String, String> tableMap, String sorterBy) {
         Sort sort;
         if (tableMap.get(Constant.SORTER) != null && !Constant.EMPTY_SORTER.equals(tableMap.get(Constant.SORTER))) {
-            JSONObject sorter = JSONObject.parseObject(tableMap.get(Constant.SORTER));
+            JSONObject sorter = JSONUtil.parseObj(tableMap.get(Constant.SORTER));
+//            JSONObject sorter = JSONObject.parseObject(tableMap.get(Constant.SORTER));
             Iterator<String> iterator = sorter.keySet().iterator();
             String sortAttr = iterator.next();
             if (Constant.ASCEND.equals(sorter.get(sortAttr))) {

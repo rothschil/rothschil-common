@@ -1,6 +1,8 @@
 package io.github.rothschil.common.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -9,6 +11,7 @@ import java.net.UnknownHostException;
  * @author <a href="mailto:WCNGS@QQ.COM">Sam</a>
  * @version 1.0.0
  */
+@Slf4j
 public class IpUtil {
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = null;
@@ -28,7 +31,7 @@ public class IpUtil {
                     try {
                         inet = InetAddress.getLocalHost();
                     } catch (UnknownHostException e) {
-                        e.printStackTrace();
+                        log.info("{}",e.getMessage());
                     }
                     ipAddress = inet.getHostAddress();
                 }
