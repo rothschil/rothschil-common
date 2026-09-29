@@ -29,12 +29,12 @@ public class IntfConfService {
      * @param interfaceName  接口编码
      * @return IntfConfEntity>
      **/
-    public IntfConfEntity getIntfData(String interfaceName){
-        IntfConfEntity conf=null;
+    public IntfConf getIntfData(String interfaceName){
+        IntfConf conf=null;
         return conf;
     }
 
-    public void exchangeIpaddress(IntfConfEntity conf){
+    public void exchangeIpaddress(IntfConf conf){
         // 处理一些特殊地址，例如集团地址等
         if(ObjectUtil.isNotNull(conf.getNamespace())){
             return ;
@@ -67,8 +67,8 @@ public class IntfConfService {
      * @param interfaceName 接口编码
      * @return IntfConfEntity
      **/
-    public IntfConfEntity getIntf(String interfaceName){
-        IntfConfEntity conf = getIntfData(interfaceName);
+    public IntfConf getIntf(String interfaceName){
+        IntfConf conf = getIntfData(interfaceName);
         if(ObjectUtil.isNull(conf)){
             throw new RuntimeException(interfaceName +"[远程调用的接口未配置]");
         }

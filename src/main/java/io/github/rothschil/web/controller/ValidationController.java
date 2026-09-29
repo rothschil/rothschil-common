@@ -2,16 +2,18 @@ package io.github.rothschil.web.controller;
 
 import io.github.rothschil.common.constant.Constant;
 import io.github.rothschil.common.utils.DateUtils;
+import io.github.rothschil.domain.database.entity.TblCdmaHlr;
 import io.github.rothschil.domain.database.vo.UserVo;
 import io.github.rothschil.web.compoent.AsyncTask;
 import io.github.rothschil.web.compoent.TestCompoent;
+import io.github.rothschil.web.compoent.host.CdmaHlrResp;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
@@ -52,6 +54,17 @@ public class ValidationController {
         userVo.setId(id);
         userVo.setPhone("18956061234");
         return testCompoent.get(userVo);
+    }
+
+
+
+    @Operation(summary = "根据手机号获取本地网 不推荐使用，数据存在延迟性，建议使用方慎重使用该功能")
+    @Parameters({
+            @Parameter(name = "phone", description = "手机号码", required = true)
+    })
+    @GetMapping(value = "/host/{phone}")
+    public CdmaHlrResp testLocalhost(@PathVariable(value = "phone") String phone){
+        return testCompoent.testHost(phone);
     }
 
 }

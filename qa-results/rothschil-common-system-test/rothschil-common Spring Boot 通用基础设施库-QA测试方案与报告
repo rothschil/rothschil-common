@@ -1,0 +1,119 @@
+<title>rothschil-common Spring Boot 通用基础设施库-QA测试方案与报告</title>
+
+<h1>一、测试范围</h1>
+
+<p>本次 QA 审查对象为 <b>rothschil-common</b>，基于 Spring Boot 3.3.13 + Java 17 的通用后端基础设施脚手架。主代码 133 个文件 / 12,155 行，测试 26 个文件 / 1,489 行（占比 12.3%）。审查方式为<b>静态代码分析</b>，不执行真实业务操作。</p>
+
+<h2>1.1 覆盖模块</h2>
+
+<table>
+<colgroup><col width="180"/><col width="400"/><col width="120"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>模块</p></th><th background-color="light-gray"><p>核心能力</p></th><th background-color="light-gray"><p>优先级</p></th></tr></thead>
+<tbody>
+<tr><td><p>JPA 泛型持久化基座</p></td><td><p>BaseRepository/BaseService/AbstractEntity，泛型 CRUD、条件分页、Specification 动态查询、逻辑删除</p></td><td><p>P0</p></td></tr>
+<tr><td><p>多级缓存</p></td><td><p>Caffeine 一级本地缓存 + Redis/Redisson 二级分布式缓存 + 布隆过滤器前置拦截</p></td><td><p>P0</p></td></tr>
+<tr><td><p>动态数据源切换</p></td><td><p>AbstractRoutingDataSource 主从路由，@SelectorDataSource 注解声明式切换，Druid 连接池</p></td><td><p>P1</p></td></tr>
+<tr><td><p>统一响应与异常处理</p></td><td><p>Result&lt;T&gt; 统一封装，@RestControllerAdvice 全局异常捕获，Status 枚举状态码</p></td><td><p>P1</p></td></tr>
+<tr><td><p>接口版本管理</p></td><td><p>@ApiVersion 注解 + PathVersionHandlerMapping，URL 路径级别版本控制</p></td><td><p>P2</p></td></tr>
+<tr><td><p>敏感数据脱敏</p></td><td><p>@Sensitive 注解 + Jackson ContextualSerializer，手机号/身份证/银行卡序列化脱敏</p></td><td><p>P2</p></td></tr>
+<tr><td><p>并发设施</p></td><td><p>Disruptor 无锁队列、自定义线程池、TransmittableThreadLocal 上下文透传、MDC 链路追踪</p></td><td><p>P1</p></td></tr>
+<tr><td><p>配置安全与依赖治理</p></td><td><p>pom.xml 依赖版本、application.yml 配置安全、Jasypt 加密、Knife4j 文档安全</p></td><td><p>P1</p></td></tr>
+</tbody>
+</table>
+
+<h2>1.2 不覆盖范围</h2>
+
+<ul>
+<li>业务功能测试（项目为通用库，无具体业务流程）</li>
+<li>性能压测（无运行环境）</li>
+<li>UI/UX 测试（无前端界面）</li>
+<li>兼容性测试（无多环境矩阵）</li>
+</ul>
+
+<h2>1.3 近期修复验证重点</h2>
+
+<ol>
+<li>BaseRepositoryImpl 中全部三处 <code>entityManager.close()</code> 已移除</li>
+<li>CaffeineCacheUtil 重构为懒加载 + 双重检查锁，修复静态块 NPE 风险</li>
+<li>布隆过滤器逻辑修复：<code>if (!mightContain) return null</code>，并在 <code>putIntoCache()</code> 中增加 <code>bloomFilter.add(key)</code></li>
+</ol>
+
+<h1>二、风险点</h1>
+
+<p>本次审查共识别 <b>10 项风险机制</b>，其中 P0 阻断级 3 项、P1 重要级 5 项、P2 建议级 2 项。</p>
+
+<h2>2.1 P0 阻断级风险（3 项）</h2>
+
+<table>
+<colgroup><col width="60"/><col width="180"/><col width="380"/><col width="80"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>编号</p></th><th background-color="light-gray"><p>风险</p></th><th background-color="light-gray"><p>描述与影响</p></th><th background-color="light-gray"><p>状态</p></th></tr></thead>
+<tbody>
+<tr><td><p>RM-001</p></td><td><p>布隆过滤器未写入 key</p></td><td><p>putIntoCache() 写入 Caffeine 时未同步写入布隆过滤器，getCacheObject() 中 contains() 永远返回 false，所有读取被前置拦截返回 null，Caffeine 一级缓存完全失效。</p></td><td><p background-color="light-green">已修复</p></td></tr>
+<tr><td><p>RM-002</p></td><td><p>cache.multi 配置缺失</p></td><td><p>CacheConfiguration 使用 @Value 注入 cache.multi.caffeine.max-size 等配置，但所有 yml/properties 中均无该前缀配置项且无默认值，应用启动时抛 Could not resolve placeholder。</p></td><td><p background-color="light-red">开放</p></td></tr>
+<tr><td><p>RM-003</p></td><td><p>tryLock 未获取锁时 unlock</p></td><td><p>tryLock() 中 if(isLocked){} 是空块，finally 无条件调用 unlock()。未获取锁时抛 IllegalMonitorStateException，且方法无返回值，调用方无法感知加锁结果。</p></td><td><p background-color="light-red">开放</p></td></tr>
+</tbody>
+</table>
+
+<h2>2.2 P1 重要级风险（5 项）</h2>
+
+<table>
+<colgroup><col width="60"/><col width="180"/><col width="380"/><col width="80"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>编号</p></th><th background-color="light-gray"><p>风险</p></th><th background-color="light-gray"><p>描述与影响</p></th><th background-color="light-gray"><p>状态</p></th></tr></thead>
+<tbody>
+<tr><td><p>RM-004</p></td><td><p>delete(ID[] ids) 空实现</p></td><td><p>批量删除方法体为空，调用后不执行任何删除操作，静默 no-op，调用方无法感知删除失败。</p></td><td><p background-color="light-red">开放</p></td></tr>
+<tr><td><p>RM-005</p></td><td><p>生产环境 H2 Console 开启</p></td><td><p>application-prod.yml 中 spring.h2.console.enabled=true 且 web-allow-others=true，生产环境暴露 H2 数据库控制台，可被外部访问。</p></td><td><p background-color="light-red">开放</p></td></tr>
+<tr><td><p>RM-006</p></td><td><p>硬编码密码与密钥</p></td><td><p>数据库密码 123456、Knife4j 密码 123、Jasypt 密钥 @nhuihefei 均硬编码在配置文件中并提交到版本库。</p></td><td><p background-color="light-red">开放</p></td></tr>
+<tr><td><p>RM-007</p></td><td><p>fastjson 1.x 已 EOL</p></td><td><p>fastjson 版本 1.2.83，1.x 已停止维护，历史存在多个反序列化漏洞。项目已使用 Jackson，fastjson 仅在少数类中使用。</p></td><td><p background-color="light-red">开放</p></td></tr>
+<tr><td><p>RM-008</p></td><td><p>测试被全局跳过</p></td><td><p>pom.xml 中 skipTests=true 且 surefire skip=true，26 个测试类 / 36 个 @Test 方法在构建时全部跳过，测试代码形同虚设。</p></td><td><p background-color="light-red">开放</p></td></tr>
+</tbody>
+</table>
+
+<h2>2.3 P2 建议级风险（2 项）</h2>
+
+<table>
+<colgroup><col width="60"/><col width="180"/><col width="380"/><col width="80"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>编号</p></th><th background-color="light-gray"><p>风险</p></th><th background-color="light-gray"><p>描述与影响</p></th><th background-color="light-gray"><p>状态</p></th></tr></thead>
+<tbody>
+<tr><td><p>RM-009</p></td><td><p>异常吞掉与 printStackTrace</p></td><td><p>12 处 catch 块无日志无抛出，异常被静默吞掉；10+ 处使用 e.printStackTrace() 而非 SLF4J；查询异常 catch 后返回空集合，与"查不到"无法区分。</p></td><td><p background-color="light-red">开放</p></td></tr>
+<tr><td><p>RM-010</p></td><td><p>死代码与注释代码</p></td><td><p>WebMvcConfig（32行注释）、CacheAspect（18行注释）、Knife4jConfig（18行注释）等存在大段注释掉的死代码，P6SpySqlFormat.java 整个文件被注释。</p></td><td><p background-color="light-red">开放</p></td></tr>
+</tbody>
+</table>
+
+<h1>三、测试用例</h1>
+
+<p>共设计 <b>10 条测试用例</b>，覆盖全部 P0/P1 风险机制。由于无 Maven 构建环境，所有用例当前验证范围为 <b>static_review</b>（静态代码审查），待构建环境就绪后可升级为实际执行。</p>
+
+<table>
+<colgroup><col width="70"/><col width="160"/><col width="60"/><col width="330"/><col width="70"/></colgroup>
+<thead><tr><th background-color="light-gray"><p>用例编号</p></th><th background-color="light-gray"><p>用例名称</p></th><th background-color="light-gray"><p>优先级</p></th><th background-color="light-gray"><p>验证要点</p></th><th background-color="light-gray"><p>关联风险</p></th></tr></thead>
+<tbody>
+<tr><td><p>TC-001</p></td><td><p>布隆过滤器写入与读取一致性</p></td><td><p>P0</p></td><td><p>put 后布隆包含 key；get 时不被拦截，返回缓存值</p></td><td><p>RM-001</p></td></tr>
+<tr><td><p>TC-002</p></td><td><p>cache.multi 配置完整性</p></td><td><p>P0</p></td><td><p>6 个配置项（caffeine max-size/init-size/expire-seconds，bloom name/expectedInsertions/falseProbability）存在且有合理默认值</p></td><td><p>RM-002</p></td></tr>
+<tr><td><p>TC-003</p></td><td><p>tryLock 未获取锁时不抛异常</p></td><td><p>P0</p></td><td><p>未获取锁时正常返回 false，不抛 IllegalMonitorStateException；finally 中仅在持有锁时 unlock</p></td><td><p>RM-003</p></td></tr>
+<tr><td><p>TC-004</p></td><td><p>批量删除 delete(ID[] ids) 功能</p></td><td><p>P1</p></td><td><p>批量删除生效，记录被物理删除或逻辑删除（按设计）</p></td><td><p>RM-004</p></td></tr>
+<tr><td><p>TC-005</p></td><td><p>生产环境 H2 Console 关闭</p></td><td><p>P1</p></td><td><p>prod profile 中 enabled=false；web-allow-others=false；/h2-console 返回 404 或 403</p></td><td><p>RM-005</p></td></tr>
+<tr><td><p>TC-006</p></td><td><p>密码密钥不硬编码</p></td><td><p>P1</p></td><td><p>所有密码/密钥通过环境变量注入，代码库中无明文敏感信息</p></td><td><p>RM-006</p></td></tr>
+<tr><td><p>TC-007</p></td><td><p>测试在构建时执行</p></td><td><p>P1</p></td><td><p>skipTests=false；surefire skip=false；mvn test 执行 36 个用例</p></td><td><p>RM-008</p></td></tr>
+<tr><td><p>TC-008</p></td><td><p>CaffeineCacheUtil 懒加载线程安全</p></td><td><p>P1</p></td><td><p>字段 volatile；DCL 实现正确；构造函数私有；并发场景无异常</p></td><td><p>RM-001</p></td></tr>
+<tr><td><p>TC-009</p></td><td><p>entityManager.close() 已全部移除</p></td><td><p>P1</p></td><td><p>findByField/findByMultipleFiled/findByParams 三个方法均无 close 调用</p></td><td><p>RM-009</p></td></tr>
+<tr><td><p>TC-010</p></td><td><p>异常处理不静默吞掉</p></td><td><p>P2</p></td><td><p>无空 catch；异常有日志；关键路径异常向上抛出或返回错误标识</p></td><td><p>RM-009</p></td></tr>
+</tbody>
+</table>
+
+<h1>四、已知未覆盖</h1>
+
+<p>以下范围因环境或工具限制，本次审查<b>未能覆盖</b>，需在后续阶段补充验证：</p>
+
+<ol>
+<li><b>实际编译验证</b>：当前环境无 Maven（mvn 不在 PATH，无 mvnw），无法执行 <code>mvn compile</code> 验证代码是否可编译通过。</li>
+<li><b>测试用例实际运行</b>：测试被全局跳过（skipTests=true），且无构建环境，36 个 @Test 方法的实际运行结果未知。</li>
+<li><b>应用启动验证</b>：cache.multi 配置缺失（RM-002）尚未修复，应用当前可能无法正常启动，需修复后验证。</li>
+<li><b>缓存实际命中率</b>：布隆过滤器修复（RM-001）已在本地工作区生效，但需运行时验证缓存实际命中率和穿透拦截效果。</li>
+<li><b>并发场景验证</b>：CaffeineCacheUtil 懒加载的双重检查锁实现需多线程并发测试验证无竞态条件，当前仅静态审查。</li>
+<li><b>Redisson 实际连接验证</b>：tryLock 修复（RM-003）需真实 Redisson 环境验证分布式锁行为。</li>
+<li><b>安全渗透测试</b>：H2 Console、硬编码密码等安全风险仅静态识别，未做实际渗透测试。</li>
+</ol>
+
+<callout emoji="⚠️" background-color="light-yellow" border-color="yellow">
+<p><b>发布结论</b>：当前存在 3 个 P0 开放风险（RM-002 配置缺失、RM-003 tryLock 异常、RM-004 空实现），且无执行证据，<b>不建议发布</b>。需先修复 P0 风险并在有 Maven 环境中执行编译和测试后重新评估。</p>
+</callout>

@@ -1,0 +1,760 @@
+{
+  "schema_version": 2,
+  "run_id": "qa-1d6ebf162428",
+  "revision": 3,
+  "profile": "plan",
+  "test_intent": "non_ui_validation",
+  "execution_level": "static_analysis",
+  "selected_path": "baseline_design_only",
+  "created_at": "2026-09-18T01:02:48.933741+00:00",
+  "target": {
+    "type": "attachment_or_directory",
+    "name": "rothschil-common Spring Boot 通用基础设施库",
+    "source": "D:\\Code\\Github\\Rothschil\\rothschil-common"
+  },
+  "request_contract": {
+    "request_summary": "对 rothschil-common Java 项目进行系统测试审查，重点验证近期代码修复（移除 entityManager.close()、CaffeineCacheUtil 懒加载改造、布隆过滤器逻辑修复与写入），并评估整体代码质量、安全、性能与发布就绪状态。静态分析为主，不执行真实业务操作。",
+    "request_hash": "sha256:5e9a5e42d8fb33779609c8dcc00b7188f9d1cfbea964d287abbd0a9e539e109d",
+    "task_mode": "plan",
+    "scope": {
+      "included_source_ids": [
+        "SRC-001",
+        "SRC-002",
+        "SRC-003",
+        "SRC-004"
+      ],
+      "excluded_source_ids": [],
+      "included_rounds": [],
+      "excluded_rounds": []
+    },
+    "evidence_policy": {
+      "allow_new_execution": false,
+      "allow_precheck_bug_promotion": false,
+      "required_bug_evidence_level": "L2_observation"
+    },
+    "delivery": {
+      "artifact_required": true,
+      "format": "lark_doc",
+      "carrier": "lark_doc",
+      "filenames": [
+        "rothschil-common Spring Boot 通用基础设施库-QA测试方案与报告"
+      ],
+      "artifacts": [
+        {
+          "format": "lark_doc",
+          "carrier": "lark_doc",
+          "filename": "rothschil-common Spring Boot 通用基础设施库-QA测试方案与报告"
+        }
+      ],
+      "required_sections": [],
+      "section_order": [],
+      "must_surface_to_user": true
+    }
+  },
+  "phase_receipts": [
+    {
+      "stage": "baseline",
+      "revision": 3,
+      "state": "DISCLOSE",
+      "checked_at": "2026-09-18T01:09:38.690238+00:00",
+      "source_fingerprint": "sha256:2490b2a11915e68461f184b59a30e4d996f720c565f480ba79925981d7ee9647",
+      "warnings": 1
+    },
+    {
+      "stage": "design",
+      "revision": 3,
+      "state": "DISCLOSE",
+      "checked_at": "2026-09-18T01:09:51.816182+00:00",
+      "source_fingerprint": "sha256:2490b2a11915e68461f184b59a30e4d996f720c565f480ba79925981d7ee9647",
+      "warnings": 1
+    }
+  ],
+  "input": {
+    "summary": "rothschil-common 是基于 Spring Boot 3.3.13 + Java 17 的通用后端基础设施脚手架，主代码 133 个文件 / 12155 行，测试 26 个文件 / 1489 行（占比 12.3%）。核心模块包括 JPA 泛型持久化基座、Caffeine+Redis 多级缓存、动态数据源、统一响应/异常、接口版本管理、数据脱敏、Disruptor 并发队列等。近期已修复：BaseService.exists() 逻辑反转、pom mainClass、jasypt 重复依赖、bootclasspath、entityManager.close() 移除、CaffeineCacheUtil 懒加载改造、布隆过滤器逻辑修复与写入。",
+    "sources": [
+      {
+        "id": "SRC-001",
+        "type": "source_code",
+        "location": "src/main/java/io/github/rothschil/",
+        "description": "项目主源码，含 common(116类)、web(9类)、domain(8类) 三个顶层包",
+        "status": "read",
+        "coverage": "全量静态读取"
+      },
+      {
+        "id": "SRC-002",
+        "type": "build_config",
+        "location": "pom.xml",
+        "description": "Maven 构建配置，Spring Boot 3.3.13 父 POM，含 50+ 依赖",
+        "status": "read",
+        "coverage": "全量读取"
+      },
+      {
+        "id": "SRC-003",
+        "type": "runtime_config",
+        "location": "src/main/resources/application*.yml, config/redisson*.yml, config.properties",
+        "description": "运行时配置，含 dev/prod/desktop 三套 profile，Redisson 配置",
+        "status": "read",
+        "coverage": "全量读取"
+      },
+      {
+        "id": "SRC-004",
+        "type": "change_diff",
+        "location": "git diff HEAD",
+        "description": "近期未提交变更：BaseRepositoryImpl.java(删6行)、RedissonUtils.java(1行)、CaffeineCacheUtil.java(懒加载重构)、memdb.mv.db(运行时)",
+        "status": "read",
+        "coverage": "全量读取"
+      }
+    ],
+    "assumptions": [
+      "项目为通用基础设施库，非独立业务应用，测试以静态分析和单元测试为主",
+      "近期修复（entityManager.close 移除、CaffeineCacheUtil 懒加载、布隆过滤器修复）已在本地工作区生效但未提交",
+      "无 Maven 构建环境，无法执行编译和测试运行，所有结论基于静态代码分析",
+      "生产环境配置以 application-prod.yml 为准"
+    ],
+    "conflicts": [],
+    "artifacts": [
+      {
+        "id": "SRC-001",
+        "name": "项目主源码",
+        "locator": "src/main/java/io/github/rothschil/",
+        "type": "source_code",
+        "file_count": 133,
+        "line_count": 12155,
+        "access_status": "read",
+        "completeness_checked": true,
+        "integrity": "完整可读"
+      },
+      {
+        "id": "SRC-002",
+        "name": "Maven 构建配置",
+        "locator": "pom.xml",
+        "type": "build_config",
+        "file_count": 1,
+        "access_status": "read",
+        "completeness_checked": true,
+        "integrity": "完整可读"
+      },
+      {
+        "id": "SRC-003",
+        "name": "运行时配置文件",
+        "locator": "src/main/resources/application*.yml, config/redisson*.yml, config.properties",
+        "type": "runtime_config",
+        "file_count": 8,
+        "access_status": "read",
+        "completeness_checked": true,
+        "integrity": "完整可读；config.properties 为空文件"
+      },
+      {
+        "id": "SRC-004",
+        "name": "测试源码",
+        "locator": "src/test/java/",
+        "type": "test_code",
+        "file_count": 26,
+        "line_count": 1489,
+        "test_method_count": 36,
+        "access_status": "read",
+        "completeness_checked": true,
+        "integrity": "完整可读；测试被全局跳过"
+      },
+      {
+        "id": "SRC-005",
+        "name": "近期未提交变更",
+        "locator": "git diff HEAD",
+        "type": "change_diff",
+        "changed_files": [
+          "BaseRepositoryImpl.java",
+          "RedissonUtils.java",
+          "CaffeineCacheUtil.java",
+          "memdb.mv.db"
+        ],
+        "access_status": "read",
+        "completeness_checked": true,
+        "integrity": "完整可读"
+      }
+    ]
+  },
+  "open_questions": [],
+  "change_ledger": [
+    {
+      "id": "CHG-001",
+      "revision": 3,
+      "action": "ADD",
+      "object_type": "run",
+      "added_ids": [
+        "qa-1d6ebf162428"
+      ],
+      "removed_ids": [],
+      "modified_ids": [],
+      "before_count": 0,
+      "after_count": 1,
+      "delta_count": 1,
+      "source": "qa_flow.py normalize",
+      "summary": "根据当前 canonical 重建机械计数台账"
+    },
+    {
+      "id": "CHG-002",
+      "revision": 3,
+      "action": "ADD",
+      "object_type": "requirement",
+      "added_ids": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003",
+        "REQ-004",
+        "REQ-005",
+        "REQ-006",
+        "REQ-007",
+        "REQ-008"
+      ],
+      "removed_ids": [],
+      "modified_ids": [],
+      "before_count": 0,
+      "after_count": 8,
+      "delta_count": 8,
+      "source": "qa_flow.py normalize",
+      "summary": "根据当前 canonical 重建机械计数台账"
+    },
+    {
+      "id": "CHG-003",
+      "revision": 3,
+      "action": "ADD",
+      "object_type": "risk_mechanism",
+      "added_ids": [
+        "RM-001",
+        "RM-002",
+        "RM-003",
+        "RM-004",
+        "RM-005",
+        "RM-006",
+        "RM-007",
+        "RM-008",
+        "RM-009",
+        "RM-010"
+      ],
+      "removed_ids": [],
+      "modified_ids": [],
+      "before_count": 0,
+      "after_count": 10,
+      "delta_count": 10,
+      "source": "qa_flow.py normalize",
+      "summary": "根据当前 canonical 重建机械计数台账"
+    },
+    {
+      "id": "CHG-004",
+      "revision": 3,
+      "action": "ADD",
+      "object_type": "case",
+      "added_ids": [
+        "TC-ROTHSCHILCOM-001",
+        "TC-ROTHSCHILCOM-002",
+        "TC-ROTHSCHILCOM-003",
+        "TC-ROTHSCHILCOM-004",
+        "TC-ROTHSCHILCOM-005",
+        "TC-ROTHSCHILCOM-006",
+        "TC-ROTHSCHILCOM-007",
+        "TC-ROTHSCHILCOM-008",
+        "TC-ROTHSCHILCOM-009",
+        "TC-ROTHSCHILCOM-010"
+      ],
+      "removed_ids": [],
+      "modified_ids": [],
+      "before_count": 0,
+      "after_count": 10,
+      "delta_count": 10,
+      "source": "qa_flow.py normalize",
+      "summary": "根据当前 canonical 重建机械计数台账"
+    }
+  ],
+  "environment": {
+    "os": "Windows",
+    "java_version": "未确认（pom 指定 17）",
+    "build_tool": "Maven（环境未安装，无法执行）",
+    "spring_boot_version": "3.3.13",
+    "analysis_method": "静态代码分析"
+  },
+  "screenshot_policy": "not_applicable",
+  "plan": {
+    "scope": [
+      "JPA 泛型持久化基座（BaseRepository/BaseService/AbstractEntity）",
+      "多级缓存（Caffeine 一级 + Redis/Redisson 二级 + 布隆过滤器）",
+      "动态数据源切换（Druid 主从 + @SelectorDataSource）",
+      "统一响应与全局异常处理（Result/GlobalExceptionHandler）",
+      "接口版本管理（@ApiVersion + PathVersionHandlerMapping）",
+      "敏感数据脱敏（@Sensitive + SensitiveJsonSerializer）",
+      "并发设施（Disruptor/线程池/TransmittableThreadLocal）",
+      "配置安全与依赖治理（pom/application.yml）",
+      "近期修复验证（entityManager.close 移除、CaffeineCacheUtil 懒加载、布隆过滤器修复）"
+    ],
+    "out_of_scope": [
+      "业务功能测试（项目为通用库，无具体业务流程）",
+      "性能压测（无运行环境）",
+      "UI/UX 测试（无前端界面）",
+      "兼容性测试（无多环境矩阵）"
+    ],
+    "entry_criteria": [
+      "源码可完整读取",
+      "pom.xml 和配置文件可读取",
+      "近期变更可通过 git diff 获取"
+    ],
+    "exit_criteria": [
+      "所有 P0/P1 风险机制有对应测试用例",
+      "测试用例覆盖全部核心模块",
+      "已知未覆盖范围明确标注",
+      "飞书文档交付物生成并回读通过"
+    ],
+    "regression": []
+  },
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "title": "JPA 泛型持久化基座",
+      "description": "BaseRepository 扩展 JpaRepository，提供泛型 CRUD、条件分页、Specification 动态查询、逻辑删除等能力；BaseService 提供 Service 层基类；AbstractEntity/BaseEntity 提供实体基类与审计字段。",
+      "priority": "P0",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [
+        "RM-004",
+        "RM-009"
+      ],
+      "summary": "JPA 泛型持久化基座"
+    },
+    {
+      "id": "REQ-002",
+      "title": "多级缓存（Caffeine + Redis + 布隆过滤器）",
+      "description": "Caffeine 作为一级本地缓存，Redis/Redisson 作为二级分布式缓存，布隆过滤器前置拦截缓存穿透。CacheAspect 通过 @Cacheable 注解 + SpEL 动态 key 实现声明式缓存。PlusSpringCacheManager 自定义缓存管理器支持多参数 TTL。",
+      "priority": "P0",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [
+        "RM-001",
+        "RM-002",
+        "RM-003"
+      ],
+      "summary": "多级缓存（Caffeine + Redis + 布隆过滤器）"
+    },
+    {
+      "id": "REQ-003",
+      "title": "动态数据源切换",
+      "description": "DynamicDataSource 基于 AbstractRoutingDataSource 实现主从数据源路由，@SelectorDataSource 注解 + DataSourceAspect 切面实现声明式切换，Druid 连接池管理。",
+      "priority": "P1",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [],
+      "summary": "动态数据源切换"
+    },
+    {
+      "id": "REQ-004",
+      "title": "统一响应与全局异常处理",
+      "description": "Result<T> 统一响应封装，GlobalExceptionHandler 通过 @RestControllerAdvice 全局捕获异常并统一返回格式，Status 枚举管理状态码。",
+      "priority": "P1",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [
+        "RM-009"
+      ],
+      "summary": "统一响应与全局异常处理"
+    },
+    {
+      "id": "REQ-005",
+      "title": "接口版本管理",
+      "description": "@ApiVersion 注解 + ApiVersionCondition + PathVersionHandlerMapping 实现 URL 路径级别的接口版本控制（如 /v1.0/xxx），支持类级和方法级注解。",
+      "priority": "P2",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [],
+      "summary": "接口版本管理"
+    },
+    {
+      "id": "REQ-006",
+      "title": "敏感数据脱敏",
+      "description": "@Sensitive 注解 + SensitiveJsonSerializer（Jackson ContextualSerializer）实现手机号、身份证、银行卡等字段的序列化脱敏，支持预编译正则和无状态线程安全设计。",
+      "priority": "P2",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [],
+      "summary": "敏感数据脱敏"
+    },
+    {
+      "id": "REQ-007",
+      "title": "并发设施",
+      "description": "Disruptor 无锁环形队列、自定义线程池（CustomThreadPoolTaskExecutor/PippinThreadFactory/PippinRejectedExecutionHandler）、TransmittableThreadLocal 上下文透传、MDC 链路追踪。",
+      "priority": "P1",
+      "source": "SRC-001",
+      "risk_mechanism_ids": [],
+      "summary": "并发设施"
+    },
+    {
+      "id": "REQ-008",
+      "title": "配置安全与依赖治理",
+      "description": "pom.xml 依赖版本管理、application.yml 配置安全（密码/密钥管理、H2 Console、Actuator 端点）、Jasypt 配置加密、Knife4j 接口文档安全。",
+      "priority": "P1",
+      "source": "SRC-002,SRC-003",
+      "risk_mechanism_ids": [
+        "RM-005",
+        "RM-006",
+        "RM-007",
+        "RM-008",
+        "RM-010"
+      ],
+      "summary": "配置安全与依赖治理"
+    }
+  ],
+  "risk_mechanisms": [
+    {
+      "id": "RM-001",
+      "title": "布隆过滤器未写入 key 导致一级缓存失效",
+      "description": "CaffeineCacheUtil.putIntoCache() 写入 Caffeine 时未同步写入布隆过滤器，getCacheObject() 中 BLOOM_FILTER.contains(key) 永远返回 false，所有读取被前置拦截返回 null，Caffeine 一级缓存完全失效。",
+      "severity": "S1",
+      "priority": "P0",
+      "requirement_id": "REQ-002",
+      "evidence": "CaffeineCacheUtil.java:74-80（putIntoCache 无 bloomFilter.add）；CaffeineCacheUtil.java:121-127（getCacheObject 布隆拦截）",
+      "status": "已修复（本地工作区）",
+      "fix_verification": "需验证 putIntoCache 中已添加 getBloomFilter().add(key)"
+    },
+    {
+      "id": "RM-002",
+      "title": "cache.multi 配置缺失导致启动失败",
+      "description": "CacheConfiguration 使用 @Value('${cache.multi.caffeine.max-size}') 等注入配置，但所有 yml/properties 文件中均无 cache.multi 前缀配置项，且无默认值，应用启动时抛 IllegalArgumentException: Could not resolve placeholder。",
+      "severity": "S1",
+      "priority": "P0",
+      "requirement_id": "REQ-002",
+      "evidence": "CacheConfiguration.java:32-48（@Value 注入）；application.yml/application-dev.yml/application-prod.yml 均无 cache.multi 配置",
+      "status": "开放",
+      "fix_verification": "需在 application.yml 中补充 cache.multi.caffeine.max-size/init-size/expire-seconds 和 cache.multi.bloom.name/expectedInsertions/falseProbability 配置"
+    },
+    {
+      "id": "RM-003",
+      "title": "RedissonUtils.tryLock 未获取锁时 unlock 导致异常",
+      "description": "tryLock() 方法中 if(isLocked){} 是空块（无业务逻辑），finally 块无条件调用 redLock.unlock()。当 tryLock 返回 false（未获取到锁）时，unlock() 抛 IllegalMonitorStateException。且方法无返回值，调用方无法感知加锁结果。",
+      "severity": "S1",
+      "priority": "P0",
+      "requirement_id": "REQ-002",
+      "evidence": "RedissonUtils.java:702-717",
+      "status": "开放",
+      "fix_verification": "需改为：if(!isLocked) return false; 业务逻辑后 finally 中仅在 isLocked 时 unlock；方法返回 boolean"
+    },
+    {
+      "id": "RM-004",
+      "title": "BaseRepositoryImpl.delete(ID[] ids) 空实现",
+      "description": "批量删除方法 delete(ID[] ids) 方法体为空，调用后不执行任何删除操作，静默 no-op，调用方无法感知删除失败。",
+      "severity": "S2",
+      "priority": "P1",
+      "requirement_id": "REQ-001",
+      "evidence": "BaseRepositoryImpl.java:193-198",
+      "status": "开放",
+      "fix_verification": "需实现批量删除逻辑（如 deleteAllById(Arrays.asList(ids))）或抛出 UnsupportedOperationException"
+    },
+    {
+      "id": "RM-005",
+      "title": "生产环境 H2 Console 开启且允许外部访问",
+      "description": "application-prod.yml 中 spring.h2.console.enabled=true 且 web-allow-others=true，生产环境暴露 H2 数据库控制台，可被外部访问，存在数据库被直接操作的安全风险。",
+      "severity": "S2",
+      "priority": "P1",
+      "requirement_id": "REQ-008",
+      "evidence": "application-prod.yml:55-61",
+      "status": "开放",
+      "fix_verification": "需在 prod profile 中设置 spring.h2.console.enabled=false"
+    },
+    {
+      "id": "RM-006",
+      "title": "硬编码密码与密钥",
+      "description": "application.yml 中数据库密码 123456、Knife4j basic 密码 123、Jasypt 加密密钥 @nhuihefei 均硬编码在配置文件中，且提交到版本库。JasyptConfig.java 中也硬编码了相同密钥。",
+      "severity": "S2",
+      "priority": "P1",
+      "requirement_id": "REQ-008",
+      "evidence": "application.yml:22,26,63,67；JasyptConfig.java:22",
+      "status": "开放",
+      "fix_verification": "需改为环境变量注入（如 ${DB_PASSWORD:default}），Jasypt 密钥通过 JASYPT_ENCRYPTOR_PASSWORD 环境变量传入"
+    },
+    {
+      "id": "RM-007",
+      "title": "fastjson 1.x 已 EOL 存在安全风险",
+      "description": "pom.xml 中 fastjson 版本为 1.2.83，fastjson 1.x 已停止维护，历史存在多个反序列化漏洞（CVE-2022-25845 等）。项目已使用 Jackson 作为默认 JSON 序列化器，fastjson 仅在 CacheUtils 等少数类中使用，可直接移除或迁移到 fastjson2/Jackson。",
+      "severity": "S2",
+      "priority": "P1",
+      "requirement_id": "REQ-008",
+      "evidence": "pom.xml:187-190；CacheUtils.java:5,8",
+      "status": "开放",
+      "fix_verification": "需评估 fastjson 使用点，迁移到 Jackson 或升级到 fastjson2"
+    },
+    {
+      "id": "RM-008",
+      "title": "测试被全局跳过",
+      "description": "pom.xml 中 skipTests=true 且 maven-surefire-plugin 配置 skip=true，26 个测试类 / 36 个 @Test 方法在构建时全部跳过，测试代码形同虚设，无法提供回归保障。",
+      "severity": "S2",
+      "priority": "P1",
+      "requirement_id": "REQ-008",
+      "evidence": "pom.xml:26（skipTests）；pom.xml:508-511（surefire skip）",
+      "status": "开放",
+      "fix_verification": "需移除 skipTests=true 和 surefire skip=true，确保 CI 构建时执行测试"
+    },
+    {
+      "id": "RM-009",
+      "title": "异常吞掉与 printStackTrace",
+      "description": "12 处 catch 块无日志无抛出（RedisLock/BaseUtils/DateUtils/IpUtil/NativeUtil/PropertiesLoader/RestUtils 等），异常被静默吞掉；10+ 处使用 e.printStackTrace() 而非 SLF4J 日志，生产环境无法收集异常信息。BaseRepositoryImpl 中查询异常 catch 后返回空集合，与'查不到'无法区分。",
+      "severity": "S3",
+      "priority": "P2",
+      "requirement_id": "REQ-001,REQ-004",
+      "evidence": "RedisLock.java:198；BaseUtils.java:206,208,211；DateUtils.java:535,693；IpUtil.java:31,43；TextUtil.java:212,226,232；ThreadUnit.java:31",
+      "status": "开放",
+      "fix_verification": "需统一改为 log.error() 记录异常堆栈，关键路径应抛出或返回错误标识"
+    },
+    {
+      "id": "RM-010",
+      "title": "死代码与注释掉的大段代码",
+      "description": "WebMvcConfig（32行注释）、CacheAspect（18行注释）、Knife4jConfig（18行注释）、CustomThreadPoolTaskExecutor（20行注释）、BaseRepositoryFactoryBean（21行注释）等存在大段注释掉的死代码。P6SpySqlFormat.java 整个文件被注释掉。影响代码可读性和维护性。",
+      "severity": "S3",
+      "priority": "P2",
+      "requirement_id": "REQ-008",
+      "evidence": "WebMvcConfig.java:38-69,102-115；CacheAspect.java:60-77；P6SpySqlFormat.java（全文件注释）",
+      "status": "开放",
+      "fix_verification": "需删除确认无用的注释代码，保留有参考价值的移到文档"
+    }
+  ],
+  "observed_surfaces": [],
+  "cases": [
+    {
+      "id": "TC-ROTHSCHILCOM-001",
+      "title": "验证布隆过滤器写入与读取一致性",
+      "requirement_id": "REQ-002",
+      "risk_mechanism_id": "RM-001",
+      "priority": "P0",
+      "preconditions": "CaffeineCacheUtil 已修复懒加载；CacheConfiguration 布隆过滤器 Bean 已初始化",
+      "steps": [
+        "调用 CaffeineCacheUtil.putIntoCache('test-key', 'test-value')",
+        "验证 getBloomFilter().contains('test-key') 返回 true",
+        "调用 CaffeineCacheUtil.getCacheObject('test-key')",
+        "验证返回值为 'test-value'（未被布隆过滤器拦截）"
+      ],
+      "expected": "put 后布隆过滤器包含 key；get 时不被拦截，返回缓存值",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-002",
+      "title": "验证 cache.multi 配置完整性",
+      "requirement_id": "REQ-002",
+      "risk_mechanism_id": "RM-002",
+      "priority": "P0",
+      "preconditions": "application.yml 已配置",
+      "steps": [
+        "检查 application.yml 中 cache.multi.caffeine.max-size 配置项",
+        "检查 cache.multi.caffeine.init-size 配置项",
+        "检查 cache.multi.caffeine.expire-seconds 配置项",
+        "检查 cache.multi.bloom.name 配置项",
+        "检查 cache.multi.bloom.expectedInsertions 配置项",
+        "检查 cache.multi.bloom.falseProbability 配置项"
+      ],
+      "expected": "全部 6 个配置项存在且有合理默认值；应用可正常启动无占位符异常",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-003",
+      "title": "验证 tryLock 未获取锁时不抛异常",
+      "requirement_id": "REQ-002",
+      "risk_mechanism_id": "RM-003",
+      "priority": "P0",
+      "preconditions": "Redisson 可用；存在竞争锁场景",
+      "steps": [
+        "线程 A 获取锁 'test-lock' 并持有",
+        "线程 B 调用 tryLock('test-lock', 0, 10, SECONDS)",
+        "验证线程 B 未抛 IllegalMonitorStateException",
+        "验证方法返回 false（或调用方可感知未获取锁）"
+      ],
+      "expected": "未获取锁时正常返回 false，不抛异常；finally 中仅在持有锁时 unlock",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-004",
+      "title": "验证批量删除 delete(ID[] ids) 功能",
+      "requirement_id": "REQ-001",
+      "risk_mechanism_id": "RM-004",
+      "priority": "P1",
+      "preconditions": "存在 3 条测试数据，ID 分别为 1,2,3",
+      "steps": [
+        "调用 baseRepository.delete(new Integer[]{1,2,3})",
+        "验证数据库中 ID 为 1,2,3 的记录已删除",
+        "调用 baseRepository.findById(1)，验证返回 null"
+      ],
+      "expected": "批量删除生效，记录被物理删除或逻辑删除（按设计）",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-005",
+      "title": "验证生产环境 H2 Console 关闭",
+      "requirement_id": "REQ-008",
+      "risk_mechanism_id": "RM-005",
+      "priority": "P1",
+      "preconditions": "使用 prod profile 启动",
+      "steps": [
+        "检查 application-prod.yml 中 spring.h2.console.enabled",
+        "检查 spring.h2.console.settings.web-allow-others",
+        "尝试访问 /h2-console 路径"
+      ],
+      "expected": "enabled=false；web-allow-others=false；/h2-console 返回 404 或 403",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-006",
+      "title": "验证密码密钥不硬编码",
+      "requirement_id": "REQ-008",
+      "risk_mechanism_id": "RM-006",
+      "priority": "P1",
+      "preconditions": "配置文件已更新",
+      "steps": [
+        "检查 application.yml 中数据库密码是否使用环境变量占位符",
+        "检查 JasyptConfig 中密钥是否从环境变量读取",
+        "检查 Knife4j basic 密码是否外置",
+        "grep 代码库确认无明文密码 '123456'/'@nhuihefei'/'123'"
+      ],
+      "expected": "所有密码/密钥通过环境变量注入，代码库中无明文敏感信息",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-007",
+      "title": "验证测试在构建时执行",
+      "requirement_id": "REQ-008",
+      "risk_mechanism_id": "RM-008",
+      "priority": "P1",
+      "preconditions": "pom.xml 已更新",
+      "steps": [
+        "检查 pom.xml 中 skipTests 配置",
+        "检查 maven-surefire-plugin skip 配置",
+        "执行 mvn test，验证测试用例被执行"
+      ],
+      "expected": "skipTests=false 或移除；surefire skip=false；mvn test 执行 36 个用例",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-008",
+      "title": "验证 CaffeineCacheUtil 懒加载线程安全",
+      "requirement_id": "REQ-002",
+      "risk_mechanism_id": "RM-001",
+      "priority": "P1",
+      "preconditions": "CaffeineCacheUtil 已重构为懒加载",
+      "steps": [
+        "检查 cache 字段是否声明为 volatile",
+        "检查 getCache() 方法是否使用双重检查锁（DCL）",
+        "检查 getBloomFilter() 方法是否使用双重检查锁",
+        "检查构造函数是否为 private（禁止实例化）",
+        "多线程并发调用 getCacheObject()，验证无 NPE、无重复初始化"
+      ],
+      "expected": "字段 volatile；DCL 实现正确；构造函数私有；并发场景无异常",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-009",
+      "title": "验证 entityManager.close() 已全部移除",
+      "requirement_id": "REQ-001",
+      "risk_mechanism_id": "RM-009",
+      "priority": "P1",
+      "preconditions": "BaseRepositoryImpl 已修复",
+      "steps": [
+        "grep BaseRepositoryImpl.java 中 entityManager.close()",
+        "检查 findByField 方法是否无 close 调用",
+        "检查 findByMultipleFiled 方法是否无 close 调用",
+        "检查 findByParams 方法是否无 close 调用"
+      ],
+      "expected": "全部 3 处 entityManager.close() 已移除；Spring 管理的 EM 不被手动关闭",
+      "validation_scope": "static_review"
+    },
+    {
+      "id": "TC-ROTHSCHILCOM-010",
+      "title": "验证异常处理不静默吞掉",
+      "requirement_id": "REQ-001,REQ-004",
+      "risk_mechanism_id": "RM-009",
+      "priority": "P2",
+      "preconditions": "代码已审查",
+      "steps": [
+        "扫描全部 catch 块，确认无空 catch",
+        "确认关键路径 catch 后有 log.error 记录堆栈",
+        "确认 BaseRepositoryImpl 查询异常不返回空集合冒充'查不到'",
+        "扫描 e.printStackTrace()，确认已全部改为 SLF4J"
+      ],
+      "expected": "无空 catch；异常有日志；关键路径异常向上抛出或返回错误标识",
+      "validation_scope": "static_review"
+    }
+  ],
+  "executions": [],
+  "evidence": [],
+  "bugs": [],
+  "bug_candidates": [],
+  "risks": [],
+  "acceptance_checks": [],
+  "blockers": [
+    {
+      "id": "BLK-001",
+      "description": "无 Maven 构建环境，无法执行编译和测试运行，所有验证基于静态代码分析",
+      "impact": "TC-007 等需要实际运行的用例无法执行，标记为 static_review",
+      "resolution": "建议在有 Maven 环境的 CI 中执行"
+    }
+  ],
+  "manual_handoff": {
+    "required": false,
+    "status": "not_required",
+    "reason": "",
+    "target_platform": "",
+    "operator": "",
+    "prerequisites": [],
+    "case_ids": [],
+    "evidence_requirements": [],
+    "result_submission": []
+  },
+  "unverified": [
+    "实际编译是否通过（无 Maven 环境）",
+    "测试用例实际运行结果（测试被全局跳过）",
+    "应用启动是否正常（cache.multi 配置缺失待修复）",
+    "缓存实际命中率（需运行时验证）",
+    "并发场景下懒加载是否有竞态条件（需多线程测试）"
+  ],
+  "coverage": {
+    "requirement_total": 8,
+    "requirement_linked": 0,
+    "requirement_unlinked": 8,
+    "p0_requirement_total": 0,
+    "p0_requirement_linked": 0,
+    "case_total": 10,
+    "case_status_counts": {
+      "未执行": 10
+    },
+    "acceptance_total": 0,
+    "acceptance_status_counts": {}
+  },
+  "release_decision": {
+    "decision": "undetermined",
+    "rationale": "静态分析阶段，存在 3 个 P0 开放风险（RM-002 配置缺失、RM-003 tryLock 异常、RM-004 空实现），RM-001 已在本地修复待验证。无执行证据，无法给出发布结论。",
+    "conditions": [
+      "修复 RM-002 cache.multi 配置缺失",
+      "修复 RM-003 tryLock 未获取锁时 unlock 异常",
+      "修复 RM-004 delete 空实现",
+      "验证 RM-001 布隆过滤器修复生效",
+      "在有 Maven 环境中执行编译和测试"
+    ]
+  },
+  "delivery_manifest": {
+    "source_revision": 3,
+    "outputs": [
+      {
+        "purpose": "deliverable",
+        "carrier": "lark_doc",
+        "format": "lark_doc",
+        "filename": "rothschil-common Spring Boot 通用基础设施库-QA测试方案与报告",
+        "source_revision": 3,
+        "sha256": "640a599f36385fb0074a3586e334dd943d14a509b9daf9595a640d743c25ca29",
+        "locator": "https://my.feishu.cn/docx/CQgrd4OuToGiOfxWKzFcxBjNnTg",
+        "document_id": "CQgrd4OuToGiOfxWKzFcxBjNnTg",
+        "readback_receipt": "飞书文档已创建并回读验证",
+        "validated": true,
+        "status": "validated"
+      }
+    ],
+    "fingerprint": "sha256:2490b2a11915e68461f184b59a30e4d996f720c565f480ba79925981d7ee9647"
+  },
+  "test_data": {
+    "writes_allowed": false,
+    "accounts": [],
+    "created_records": [],
+    "cleanup": {
+      "required": false,
+      "status": "completed",
+      "command": "none",
+      "residuals": []
+    }
+  },
+  "disclosures": [
+    "阻塞项必须包含最小补齐动作（blockers[]）"
+  ]
+}

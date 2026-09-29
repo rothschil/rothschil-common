@@ -20,7 +20,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Data
 // @TableName("intf_conf")
-public class IntfConfEntity implements Serializable {
+public class IntfConf implements Serializable {
 
     private static final long serialVersionUID = 665666641904003064L;
 
